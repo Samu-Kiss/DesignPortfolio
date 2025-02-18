@@ -1,0 +1,372 @@
+/*src/index.css*/
+@import url('https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lexend:wght@400;600&display=swap');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
+:root {
+    --background: #F2EEE6;
+    --primary: #BA181B;
+    --secondary: #A4161A;
+    --accent: #660708;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    background-color: var(--background);
+    color: var(--primary);
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    font-family: 'Luxurious Script', cursive;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+h4 {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+p {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 400;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.navbar {
+    background-color: var(--background),15%;
+    color: var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    font-size: 1.2rem;
+}
+
+.nav-links li {
+    cursor: pointer;
+}
+
+.hero {
+    position: relative;
+    height: 110vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 120%;
+    height: 100%;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+
+.hero-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, var(--background) 90%);
+    z-index: 1;
+}
+
+.spline-scene {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    height: 50%;
+}
+
+.hero-left {
+    flex: 1;
+    text-align: left;
+    margin-bottom: 30%;
+}
+
+.hero-right {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: right;
+}
+
+.hero-title {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.hero-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 6rem;
+}
+
+.hero-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-size: 5rem;
+}
+
+.hero-text {
+    max-width: 400px;
+}
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--secondary);
+    margin-top: 10px;
+}
+
+.hero-description {
+    font-size: 1rem;
+    color: var(--secondary);
+    margin-top: 20px;
+}
+
+.hero-lottie {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+}
+
+.about {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 70vh;
+    padding: 50px 20px;
+    margin-bottom: 20vh;
+}
+
+.about-img-wrapper {
+    position: relative;
+    width: 40%;
+}
+
+.about-img {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.about-img-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, var(--background) 100%);
+    z-index: 2;
+}
+
+.about-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 6rem;
+}
+
+.about-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-size: 5rem;
+}
+
+.about-content {
+    max-width: 400px;
+}
+
+.about-title {
+    font-size: 2rem;
+    color: var(--primary);
+    font-weight: bold;
+    font-family: 'Luxurious Script', cursive;
+}
+
+.about-text {
+    font-size: 1rem;
+    color: var(--secondary);
+}
+
+.projects {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.projects-list {
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.project-item {
+    display: flex;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    border-top: var(--accent) 2px solid;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+.redes{
+    display: flex;
+    justify-content: center;
+}
+.diseno{
+    display: flex;
+    justify-content: left;
+    padding-left: 20%;
+}
+.video{
+    display: flex;
+    justify-content: left;
+    padding-left: 40%;
+}
+.foto {
+    border-bottom: var(--accent) 2px solid;
+    justify-content: center;
+}
+
+.project-item h4{
+    max-width: 200px;
+    text-align: right;
+    padding: 15px;
+}
+
+.project-item:hover {
+    transform: scale(1.05);
+    color: var(--primary);
+}
+
+.projects-title{
+    font-weight: bold;
+    justify-self: left;
+}
+
+.projects-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 6rem;
+}
+
+.projects-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-size: 5rem;
+}
+
+.type-title{
+    font-weight: bold;
+}
+
+.type-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 5rem;
+}
+
+.type-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-size: 4rem;
+}
+
+.contact {
+    text-align: center;
+    height: 90vh;
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-title{
+    font-weight: bold;
+    justify-self: left;
+    margin: 0;
+}
+
+.contact-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 6rem;
+}
+
+.contact-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-size: 5rem;
+}
+
+.contact-subtitle h4{
+    margin:0;
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.contact-link {
+    background-color: var(--secondary);
+    color: var(--background);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    align-content: center;
+    justify-content: center;
+}
+
+.contact-link i{
+    padding: 10px 10px 10px 0;
+    transition: transform 0.3s ease;
+}
+
+.contact-link:hover {
+    transform: scale(1.05);
+    background-color: var(--primary);
+}
