@@ -83,6 +83,30 @@ const LoadingScreen = ({ onLoadingComplete }) => {
                                 >
                                     U
                                 </motion.span>
+                                <motion.span 
+                                    className="loading-letter lexend"
+                                    initial={{ y: 60, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.25, duration: 0.5 }}
+                                >
+                                    P
+                                </motion.span>
+                                <motion.span 
+                                    className="loading-letter lexend"
+                                    initial={{ y: 60, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.25, duration: 0.5 }}
+                                >
+                                    :
+                                </motion.span>
+                                <motion.span 
+                                    className="loading-letter lexend"
+                                    initial={{ y: 60, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.25, duration: 0.5 }}
+                                >
+                                    )
+                                </motion.span>
                             </div>
                             <motion.div 
                                 className="loading-subtitle"

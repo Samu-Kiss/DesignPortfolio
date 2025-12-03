@@ -1,67 +1,58 @@
 // src/pages/Redes.jsx
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
-import Masonry from 'react-masonry-css';
-import PageWrapper from '../components/shared/PageWrapper';
+import { useNavigate } from 'react-router-dom';
 
-// Datos de ejemplo - reemplaza con tus proyectos reales
-// Las URLs serán de Supabase: https://[PROJECT-ID].supabase.co/storage/v1/object/public/portfolio/redes/...
-const projects = [
+// Datos organizados por cliente/marca
+const clientProjects = [
     {
         id: 1,
-        title: 'Campaña Instagram',
-        platform: 'Instagram',
-        client: 'Cliente Ejemplo',
-        image: 'https://picsum.photos/seed/redes1/400/500',
-        metrics: '+150% engagement'
+        client: 'Marca Deportiva',
+        images: [
+            'https://picsum.photos/seed/marca1a/800/600',
+            'https://picsum.photos/seed/marca1b/600/800',
+            'https://picsum.photos/seed/marca1c/800/800',
+            'https://picsum.photos/seed/marca1d/700/500',
+            'https://picsum.photos/seed/marca1e/600/900',
+        ]
     },
     {
         id: 2,
-        title: 'Contenido TikTok',
-        platform: 'TikTok',
-        client: 'Marca XYZ',
-        image: 'https://picsum.photos/seed/redes2/400/600',
-        metrics: '500K views'
+        client: 'Startup Tech',
+        images: [
+            'https://picsum.photos/seed/tech2a/700/700',
+            'https://picsum.photos/seed/tech2b/800/600',
+            'https://picsum.photos/seed/tech2c/600/800',
+            'https://picsum.photos/seed/tech2d/900/600',
+        ]
     },
     {
         id: 3,
-        title: 'Feed Corporativo',
-        platform: 'Instagram',
-        client: 'Empresa ABC',
-        image: 'https://picsum.photos/seed/redes3/400/400',
-        metrics: '10K nuevos seguidores'
+        client: 'Restaurante Gourmet',
+        images: [
+            'https://picsum.photos/seed/resto3a/800/800',
+            'https://picsum.photos/seed/resto3b/700/900',
+            'https://picsum.photos/seed/resto3c/800/600',
+            'https://picsum.photos/seed/resto3d/600/700',
+            'https://picsum.photos/seed/resto3e/750/750',
+            'https://picsum.photos/seed/resto3f/800/500',
+        ]
     },
     {
         id: 4,
-        title: 'Stories Destacados',
-        platform: 'Instagram',
-        client: 'Restaurante Local',
-        image: 'https://picsum.photos/seed/redes4/400/550',
-        metrics: '+200% alcance'
-    },
-    {
-        id: 5,
-        title: 'Reels Virales',
-        platform: 'Instagram',
-        client: 'Startup Tech',
-        image: 'https://picsum.photos/seed/redes5/400/480',
-        metrics: '1M reproducciones'
-    },
-    {
-        id: 6,
-        title: 'Carrusel Educativo',
-        platform: 'Instagram',
         client: 'Academia Online',
-        image: 'https://picsum.photos/seed/redes6/400/520',
-        metrics: '5K guardados'
+        images: [
+            'https://picsum.photos/seed/acad4a/800/600',
+            'https://picsum.photos/seed/acad4b/600/800',
+            'https://picsum.photos/seed/acad4c/700/700',
+        ]
     },
 ];
 
-const breakpointColumns = {
-    default: 4,
-    1200: 3,
-    900: 2,
-    600: 1
+const pageVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.5 } },
+    exit: { opacity: 0, transition: { duration: 0.3 } }
 };
 
 const containerVariants = {
@@ -69,8 +60,8 @@ const containerVariants = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.2
+            staggerChildren: 0.15,
+            delayChildren: 0.3
         }
     }
 };
@@ -80,47 +71,124 @@ const itemVariants = {
     visible: { 
         opacity: 1, 
         y: 0,
-        transition: { type: 'spring', stiffness: 300, damping: 24 }
+        transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] }
     }
 };
 
-const Redes = () => {
+// Componente de carrusel infinito con CSS animation
+const InfiniteCarousel = ({ images, client, direction }) => {
+    const [isPaused, setIsPaused] = useState(false);
+    
+    // Duplicar imágenes para efecto infinito seamless
+    const extendedImages = [...images, ...images];
+    
+    const handleMouseEnter = () => setIsPaused(true);
+    const handleMouseLeave = () => setIsPaused(false);
+
     return (
-        <PageWrapper title="Redes">
-            <motion.div
+        <div 
+            className="redes-carousel-wrapper"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleMouseEnter}
+            onTouchEnd={handleMouseLeave}
+        >
+            <div 
+                className={`redes-carousel-track-infinite ${direction === 'left' ? 'scroll-left' : 'scroll-right'}`}
+                style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
+            >
+                {extendedImages.map((image, imgIndex) => (
+                    <div key={imgIndex} className="redes-carousel-item">
+                        <img 
+                            src={image} 
+                            alt={`${client} - Proyecto ${(imgIndex % images.length) + 1}`}
+                            loading="lazy"
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const Redes = () => {
+    const navigate = useNavigate();
+    
+    // Generar direcciones aleatorias una sola vez
+    const directions = useMemo(() => 
+        clientProjects.map(() => Math.random() > 0.5 ? 'left' : 'right'),
+        []
+    );
+
+    const handleBack = (e) => {
+        e.preventDefault();
+        navigate('/');
+    };
+
+    return (
+        <motion.div 
+            className="page-redes"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+        >
+            {/* Header */}
+            <header className="project-page-header">
+                <button onClick={handleBack} className="project-back-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                
+                <motion.div 
+                    className="project-title-wrapper"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                >
+                    <h4 className="project-page-subtitle">Creación de contenido para</h4>
+                    <h1 className="project-page-title">
+                        <span className="luxurious">R</span>
+                        <span className="lexend">ED</span>
+                        <span className="luxurious">E</span>
+                        <span className="lexend">S </span>
+                        <span className="luxurious">S</span>
+                        <span className="lexend">OCI</span>
+                        <span className="luxurious">A</span>
+                        <span className="lexend">LES</span>
+                    </h1>
+                </motion.div>
+
+                <div className="project-header-line"></div>
+            </header>
+
+            {/* Carruseles por cliente */}
+            <motion.section 
+                className="redes-carousels"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
             >
-                <Masonry
-                    breakpointCols={breakpointColumns}
-                    className="masonry-grid"
-                    columnClassName="masonry-column"
-                >
-                    {projects.map((project) => (
-                        <motion.article
-                            key={project.id}
-                            className="masonry-item"
-                            variants={itemVariants}
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                        >
-                            <img 
-                                src={project.image} 
-                                alt={project.title}
-                                loading="lazy"
-                            />
-                            <div className="masonry-overlay">
-                                <span className="masonry-platform">{project.platform}</span>
-                                <h3 className="masonry-title">{project.title}</h3>
-                                <p className="masonry-client">{project.client}</p>
-                                <span className="masonry-metrics">{project.metrics}</span>
-                            </div>
-                        </motion.article>
-                    ))}
-                </Masonry>
-            </motion.div>
-        </PageWrapper>
+                {clientProjects.map((client, index) => (
+                    <motion.div 
+                        key={client.id} 
+                        className="redes-carousel-section"
+                        variants={itemVariants}
+                    >
+                        <div className="redes-carousel-header">
+                            <h2 className="redes-carousel-client">{client.client}</h2>
+                        </div>
+                        
+                        <InfiniteCarousel 
+                            images={client.images}
+                            client={client.client}
+                            direction={directions[index]}
+                        />
+                    </motion.div>
+                ))}
+            </motion.section>
+        </motion.div>
     );
 };
 

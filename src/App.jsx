@@ -13,12 +13,25 @@ import Diseno from './pages/Diseno';
 import Video from './pages/Video';
 import Foto from './pages/Foto';
 
+// Componente para scroll to top en cambio de ruta
+const ScrollToTop = () => {
+    const { pathname } = useLocation();
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+    
+    return null;
+};
+
 const AnimatedRoutes = () => {
     const location = useLocation();
     
     return (
-        <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
+        <>
+            <ScrollToTop />
+            <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
                 <Route path="/" element={
                     <div>
                         <Navbar />
@@ -32,8 +45,9 @@ const AnimatedRoutes = () => {
                 <Route path="/diseno" element={<Diseno />} />
                 <Route path="/video" element={<Video />} />
                 <Route path="/foto" element={<Foto />} />
-            </Routes>
-        </AnimatePresence>
+                </Routes>
+            </AnimatePresence>
+        </>
     );
 };
 
