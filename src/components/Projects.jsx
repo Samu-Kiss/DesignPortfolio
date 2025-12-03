@@ -28,7 +28,7 @@ const Projects = () => {
                         <span className="lexend">LES</span>
                     </h3>
                 </Link>
-                <Link to="/diseño" className="project-item diseno">
+                <Link to="/diseno" className="project-item diseno">
                     <h3 className="type-title">
                         <span className="luxurious">D</span>
                         <span className="lexend">ISE</span>

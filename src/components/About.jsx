@@ -1,10 +1,11 @@
 import React from 'react';
+import pfpImage from '../assets/PFP.png';
 
 const About = () => {
     return (
         <section className="about" id="acerca">
             <div className="about-img-wrapper">
-                <img src="src/assets/PFP.png" alt="Perfil" className="about-img"/>
+                <img src={pfpImage} alt="Samuel Pico - Diseñador y productor audiovisual" className="about-img"/>
                 <div className="about-img-gradient"></div>
             </div>
             <div className="about-content">

@@ -12,7 +12,7 @@ const Contact = () => {
                 <span className="luxurious">O</span>
                 <span className="lexend">S</span>
             </h2>
-            <h4 className="contact-subtitle">Juntos en tu próximo proyeto.</h4>
+            <h4 className="contact-subtitle">Juntos en tu próximo proyecto.</h4>
             <div className="contact-links">
                 <a className="contact-link" href="https://wa.me/573028444146">
                     <i className="fi fi-brands-whatsapp"></i>
