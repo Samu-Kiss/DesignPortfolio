@@ -1,8 +1,10 @@
 // src/pages/Foto.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import useModal from '../hooks/useModal';
+import NavbarInternal from '../components/NavbarInternal';
 
 // Datos de ejemplo - reemplaza con tus proyectos reales
 const photos = [
@@ -106,6 +108,25 @@ const itemVariants = {
 
 // Lightbox Modal
 const Lightbox = ({ photo, photos, onClose, onNavigate }) => {
+    // Hook para cerrar con Escape
+    useModal(!!photo, onClose);
+    
+    // Navegación con flechas del teclado
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!photo) return;
+            const currentIndex = photos.findIndex(p => p.id === photo.id);
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                onNavigate(photos[currentIndex - 1]);
+            } else if (e.key === 'ArrowRight' && currentIndex < photos.length - 1) {
+                onNavigate(photos[currentIndex + 1]);
+            }
+        };
+        
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [photo, photos, onNavigate]);
+    
     if (!photo) return null;
     
     const currentIndex = photos.findIndex(p => p.id === photo.id);
@@ -119,8 +140,15 @@ const Lightbox = ({ photo, photos, onClose, onNavigate }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Foto: ${photo.title}`}
         >
-            <button className="foto-lightbox-close" onClick={onClose}>
+            <button 
+                className="foto-lightbox-close" 
+                onClick={onClose}
+                aria-label="Cerrar galería"
+            >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
@@ -130,6 +158,7 @@ const Lightbox = ({ photo, photos, onClose, onNavigate }) => {
                 <button 
                     className="foto-lightbox-nav foto-lightbox-prev"
                     onClick={(e) => { e.stopPropagation(); onNavigate(photos[currentIndex - 1]); }}
+                    aria-label="Foto anterior"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M15 18l-6-6 6-6"/>
@@ -156,6 +185,7 @@ const Lightbox = ({ photo, photos, onClose, onNavigate }) => {
                 <button 
                     className="foto-lightbox-nav foto-lightbox-next"
                     onClick={(e) => { e.stopPropagation(); onNavigate(photos[currentIndex + 1]); }}
+                    aria-label="Foto siguiente"
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M9 18l6-6-6-6"/>
@@ -194,6 +224,8 @@ const Foto = () => {
             animate="animate"
             exit="exit"
         >
+            <NavbarInternal />
+            
             {/* Header */}
             <header className="project-page-header">
                 <button onClick={handleBack} className="project-back-btn">

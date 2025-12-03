@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import pfpImage from '../assets/PFP.png';
+import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
+    const { t } = useLanguage();
+    
     const programas = [
         'Photoshop',
         'Illustrator',
@@ -17,7 +20,7 @@ const About = () => {
         <section className="about" id="acerca">
             {/* Línea decorativa superior */}
             <div className="about-divider">
-                <span className="about-divider-text">ACERCA DE MÍ</span>
+                <span className="about-divider-text">{t('about.sectionTitle')}</span>
             </div>
 
             <div className="about-container">
@@ -40,7 +43,7 @@ const About = () => {
                 >
                     <div className="about-tag">
                         <span className="about-tag-dot"></span>
-                        <span>BOGOTÁ, COLOMBIA</span>
+                        <span>{t('about.location')}</span>
                     </div>
                     
                     <h1 className="about-title">
@@ -50,12 +53,11 @@ const About = () => {
                     </h1>
                     
                     <p className="about-description">
-                        Mi nombre es <strong>Samuel Pico</strong>, soy un diseñador y productor audiovisual 
-                        apasionado por crear experiencias visuales que conecten y comuniquen.
+                        {t('about.description')}
                     </p>
                     
                     <div className="about-programs">
-                        <span className="about-programs-label">Herramientas</span>
+                        <span className="about-programs-label">{t('about.tools')}</span>
                         <div className="about-programs-list">
                             {programas.map((programa, index) => (
                                 <span key={index} className="about-program-tag">{programa}</span>

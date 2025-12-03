@@ -5,11 +5,69 @@
 
 :root {
     --background: #F2EEE6;
+    --background-alt: #E8E4DB;
+    --text: #161A1D;
+    --text-muted: #4A4A4A;
     --primary: #BA181B;
     --secondary: #A4161A;
     --accent: #660708;
     --dark: #161A1D;
     --transition-smooth: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Dark Mode */
+html.dark {
+    --background: #161A1D;
+    --background-alt: #1E2328;
+    --text: #F2EEE6;
+    --text-muted: #A8A8A8;
+    --primary: #E63946;
+    --secondary: #D62839;
+    --accent: #FF6B6B;
+    --dark: #0D0F11;
+}
+
+html.dark body {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+html.dark .navbar {
+    background-color: rgba(22, 26, 29, 0.95);
+}
+
+html.dark .hero-title,
+html.dark .about-title,
+html.dark .projects-title,
+html.dark .contact-title {
+    color: var(--text);
+}
+
+html.dark .about-text,
+html.dark .contact-text {
+    color: var(--text-muted);
+}
+
+html.dark .project-card {
+    background-color: var(--background-alt);
+}
+
+html.dark .project-card:hover {
+    background-color: var(--dark);
+}
+
+html.dark .project-page-header {
+    background-color: var(--background);
+}
+
+html.dark .project-back-btn {
+    color: var(--text);
+}
+
+html.dark .foto-lightbox-overlay,
+html.dark .diseno-modal-overlay,
+html.dark .video-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.95);
 }
 
 * {
@@ -23,6 +81,12 @@ body {
     color: var(--primary);
     width: 100vw;
     overflow-x: hidden;
+    cursor: none;
+}
+
+/* Hide cursor on all interactive elements */
+a, button, input, textarea, select, [role="button"], .nav-links li {
+    cursor: none !important;
 }
 
 /* App Content Transition */
@@ -2912,5 +2976,417 @@ a:hover {
     
     .foto-item {
         margin-bottom: 15px;
+    }
+}
+
+/* ==========================================
+   CUSTOM CURSOR
+   ========================================== */
+
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+
+.custom-cursor.hovering {
+    width: 50px;
+    height: 50px;
+    background: rgba(186, 24, 27, 0.15);
+    border-color: var(--primary);
+}
+
+html.dark .custom-cursor {
+    border-color: #E63946;
+}
+
+html.dark .custom-cursor.hovering {
+    background: rgba(230, 57, 70, 0.2);
+    border-color: #E63946;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .custom-cursor {
+        display: none;
+    }
+}
+
+/* ==========================================
+   SETTINGS TOGGLE
+   ========================================== */
+
+.settings-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9990;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--background);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 6px 25px rgba(186, 24, 27, 0.3);
+}
+
+.toggle-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.toggle-text {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.language-toggle {
+    font-size: 13px;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+html.dark .toggle-btn {
+    background: var(--background-alt);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+html.dark .toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.theme-toggle-btn,
+.language-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover,
+.language-toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.theme-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.language-toggle-btn {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ==========================================
+   NAVBAR ACTIVE INDICATOR
+   ========================================== */
+
+.nav-links li a {
+    position: relative;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    transition: transform 0.3s var(--transition-smooth);
+}
+
+.nav-links li a.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav-links li a.active {
+    color: var(--primary);
+}
+
+/* ==========================================
+   NAVBAR INTERNAL (PROJECT PAGES)
+   ========================================== */
+
+.navbar-internal {
+    background-color: rgba(242, 238, 230, 0.5);
+    color: var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+html.dark .navbar-internal {
+    background-color: rgba(22, 26, 29, 0.9);
+}
+
+.nav-home-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    border-radius: 30px;
+    color: var(--primary);
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-home-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.nav-home-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ==========================================
+   404 NOT FOUND PAGE
+   ========================================== */
+
+.page-404 {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-404::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(186, 24, 27, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(102, 7, 8, 0.03) 0%, transparent 50%);
+    animation: float404 20s ease-in-out infinite;
+}
+
+@keyframes float404 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-2%, -2%) rotate(5deg); }
+}
+
+.error-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+}
+
+.error-code {
+    font-size: clamp(8rem, 25vw, 18rem);
+    line-height: 0.9;
+    margin: 0 0 20px;
+    position: relative;
+}
+
+.error-code .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    color: var(--primary);
+}
+
+.error-code .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.error-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.error-line {
+    width: 60px;
+    height: 2px;
+    background: var(--primary);
+}
+
+.error-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+.error-message {
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 500;
+    color: var(--dark);
+    margin: 0 0 15px;
+}
+
+html.dark .error-message {
+    color: var(--text);
+}
+
+.error-submessage {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 0 0 40px;
+    opacity: 0.7;
+}
+
+.error-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 40px;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.error-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.error-link:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(186, 24, 27, 0.35);
+    text-decoration: none;
+}
+
+.error-link:hover::before {
+    left: 100%;
+}
+
+.error-link svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.error-link:hover svg {
+    transform: translateX(5px);
+}
+
+/* Decorative elements */
+.error-shapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.error-shape {
+    position: absolute;
+    border: 2px solid var(--primary);
+    opacity: 0.1;
+    border-radius: 50%;
+}
+
+.error-shape:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: -100px;
+    animation: pulse404 4s ease-in-out infinite;
+}
+
+.error-shape:nth-child(2) {
+    width: 200px;
+    height: 200px;
+    bottom: 15%;
+    right: -50px;
+    animation: pulse404 4s ease-in-out infinite 1s;
+}
+
+.error-shape:nth-child(3) {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    left: 10%;
+    animation: pulse404 4s ease-in-out infinite 2s;
+}
+
+@keyframes pulse404 {
+    0%, 100% { transform: scale(1); opacity: 0.1; }
+    50% { transform: scale(1.1); opacity: 0.15; }
+}
+
+@media (max-width: 768px) {
+    .error-shape {
+        display: none;
     }
 }

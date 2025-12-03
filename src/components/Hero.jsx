@@ -3,8 +3,11 @@ import React from 'react';
 import Spline from '@splinetool/react-spline';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Hero = () => {
+    const { t } = useLanguage();
+    
     return (
         <section className="hero" id="inicio">
             <div className="hero-background">
@@ -41,9 +44,8 @@ const Hero = () => {
                     transition={{ duration: 0.8, delay: 0.4, ease: [0.76, 0, 0.24, 1] }}
                 >
                     <div className="hero-text">
-                        <h4 className="hero-subtitle">Por medio de luz, forma, color y movimiento</h4>
-                        <p className="hero-description">Lo que hago va más allá de solo transmitir algo, se trata de
-                            sumergirse en el contexto de la pieza hasta llegar a su esencia y origen.</p>
+                        <h4 className="hero-subtitle">{t('hero.subtitle')}</h4>
+                        <p className="hero-description">{t('hero.description')}</p>
                     </div>
                 </motion.div>
             </div>

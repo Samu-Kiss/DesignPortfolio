@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
+import NavbarInternal from '../components/NavbarInternal';
 
 // Datos organizados por cliente/marca
 const clientProjects = [
@@ -133,6 +134,8 @@ const Redes = () => {
             animate="animate"
             exit="exit"
         >
+            <NavbarInternal />
+            
             {/* Header */}
             <header className="project-page-header">
                 <button onClick={handleBack} className="project-back-btn">

@@ -1,8 +1,10 @@
 // src/pages/Video.jsx
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import useModal from '../hooks/useModal';
+import NavbarInternal from '../components/NavbarInternal';
 
 // Datos de ejemplo - reemplaza con tus proyectos reales
 const videos = [
@@ -90,6 +92,21 @@ const itemVariants = {
 
 // Componente Modal con Portal para centrar en viewport
 const VideoModal = ({ video, onClose }) => {
+    const videoRef = useRef(null);
+    
+    // Hook para cerrar con Escape
+    useModal(!!video, onClose);
+    
+    // Pausar video al cerrar
+    useEffect(() => {
+        return () => {
+            if (videoRef.current) {
+                videoRef.current.pause();
+                videoRef.current.currentTime = 0;
+            }
+        };
+    }, []);
+    
     if (!video) return null;
     
     return ReactDOM.createPortal(
@@ -100,6 +117,9 @@ const VideoModal = ({ video, onClose }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="video-modal-title"
         >
             <motion.div
                 className="video-modal-container"
@@ -109,12 +129,19 @@ const VideoModal = ({ video, onClose }) => {
                 transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <button className="video-modal-close" onClick={onClose}>
-                    <i className="fi fi-rr-cross"></i>
+                <button 
+                    className="video-modal-close" 
+                    onClick={onClose}
+                    aria-label="Cerrar video"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
                 </button>
                 
                 <div className="video-modal-player-wrapper">
                     <video 
+                        ref={videoRef}
                         controls 
                         autoPlay
                         className="video-modal-player"
@@ -125,7 +152,7 @@ const VideoModal = ({ video, onClose }) => {
                 </div>
                 
                 <div className="video-modal-details">
-                    <h2 className="video-modal-title">{video.title}</h2>
+                    <h2 id="video-modal-title" className="video-modal-title">{video.title}</h2>
                     <div className="video-modal-tags">
                         {video.tags.map((tag, i) => (
                             <span key={i} className="video-modal-tag">{tag}</span>
@@ -149,13 +176,11 @@ const Video = () => {
 
     const openVideo = (video) => {
         setActiveVideo(video);
-        document.body.style.overflow = 'hidden';
     };
 
-    const closeVideo = () => {
+    const closeVideo = useCallback(() => {
         setActiveVideo(null);
-        document.body.style.overflow = 'auto';
-    };
+    }, []);
 
     return (
         <motion.div 
@@ -165,6 +190,8 @@ const Video = () => {
             animate="animate"
             exit="exit"
         >
+            <NavbarInternal />
+            
             {/* Header */}
             <header className="project-page-header">
                 <button onClick={handleBack} className="project-back-btn">

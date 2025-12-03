@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-scroll';
+import { useLanguage } from '../context/LanguageContext';
 
 const Navbar = () => {
     const [navbarHeight, setNavbarHeight] = useState(0);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState('inicio');
     const navbarRef = useRef(null);
+    const { t } = useLanguage();
 
     useEffect(() => {
         if (navbarRef.current) {
@@ -18,6 +21,10 @@ const Navbar = () => {
 
     const closeMenu = () => {
         setIsMenuOpen(false);
+    };
+
+    const handleSetActive = (to) => {
+        setActiveSection(to);
     };
 
     return (
@@ -40,8 +47,11 @@ const Navbar = () => {
                         duration={500} 
                         offset={-navbarHeight}
                         onClick={closeMenu}
+                        spy={true}
+                        onSetActive={handleSetActive}
+                        className={activeSection === 'inicio' ? 'active' : ''}
                     >
-                        Inicio
+                        {t('navbar.home')}
                     </Link>
                 </li>
                 <li>
@@ -51,8 +61,11 @@ const Navbar = () => {
                         duration={500} 
                         offset={-navbarHeight}
                         onClick={closeMenu}
+                        spy={true}
+                        onSetActive={handleSetActive}
+                        className={activeSection === 'acerca' ? 'active' : ''}
                     >
-                        Acerca
+                        {t('navbar.about')}
                     </Link>
                 </li>
                 <li>
@@ -62,8 +75,11 @@ const Navbar = () => {
                         duration={500} 
                         offset={-navbarHeight}
                         onClick={closeMenu}
+                        spy={true}
+                        onSetActive={handleSetActive}
+                        className={activeSection === 'proyectos' ? 'active' : ''}
                     >
-                        Proyectos
+                        {t('navbar.projects')}
                     </Link>
                 </li>
                 <li>
@@ -73,8 +89,11 @@ const Navbar = () => {
                         duration={500} 
                         offset={0}
                         onClick={closeMenu}
+                        spy={true}
+                        onSetActive={handleSetActive}
+                        className={activeSection === 'contacto' ? 'active' : ''}
                     >
-                        Contacto
+                        {t('navbar.contact')}
                     </Link>
                 </li>
             </ul>

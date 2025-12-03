@@ -1,7 +1,9 @@
 // src/pages/Diseno.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
+import useModal from '../hooks/useModal';
+import NavbarInternal from '../components/NavbarInternal';
 
 // Datos de ejemplo - reemplaza con tus proyectos reales
 const projects = [
@@ -87,6 +89,13 @@ const itemVariants = {
 const Diseno = () => {
     const navigate = useNavigate();
     const [selectedProject, setSelectedProject] = useState(null);
+    
+    // Hook para cerrar modal con Escape
+    const closeProject = useCallback(() => {
+        setSelectedProject(null);
+    }, []);
+    
+    useModal(!!selectedProject, closeProject);
 
     const handleBack = (e) => {
         e.preventDefault();
@@ -95,12 +104,6 @@ const Diseno = () => {
 
     const openProject = (project) => {
         setSelectedProject(project);
-        document.body.style.overflow = 'hidden';
-    };
-
-    const closeProject = () => {
-        setSelectedProject(null);
-        document.body.style.overflow = 'auto';
     };
 
     return (
@@ -111,6 +114,8 @@ const Diseno = () => {
             animate="animate"
             exit="exit"
         >
+            <NavbarInternal />
+            
             {/* Header */}
             <header className="project-page-header">
                 <button onClick={handleBack} className="project-back-btn">
@@ -184,6 +189,9 @@ const Diseno = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={closeProject}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="diseno-modal-title"
                     >
                         <motion.div
                             className="diseno-modal-content"
@@ -193,7 +201,11 @@ const Diseno = () => {
                             transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <button className="diseno-modal-close" onClick={closeProject}>
+                            <button 
+                                className="diseno-modal-close" 
+                                onClick={closeProject}
+                                aria-label="Cerrar proyecto"
+                            >
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <path d="M18 6L6 18M6 6l12 12"/>
                                 </svg>
@@ -201,7 +213,7 @@ const Diseno = () => {
                             
                             <div className="diseno-modal-header">
                                 <span className="diseno-modal-category">{selectedProject.category}</span>
-                                <h2 className="diseno-modal-title">{selectedProject.title}</h2>
+                                <h2 id="diseno-modal-title" className="diseno-modal-title">{selectedProject.title}</h2>
                                 <p className="diseno-modal-client">{selectedProject.client}</p>
                             </div>
                             

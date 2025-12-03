@@ -2,64 +2,67 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-
-const projectItems = [
-    {
-        path: '/redes',
-        className: 'redes',
-        subtitle: 'Creación de contenido para',
-        title: [
-            { text: 'R', style: 'luxurious' },
-            { text: 'ED', style: 'lexend' },
-            { text: 'E', style: 'luxurious' },
-            { text: 'S ', style: 'lexend' },
-            { text: 'S', style: 'luxurious' },
-            { text: 'OCI', style: 'lexend' },
-            { text: 'A', style: 'luxurious' },
-            { text: 'LES', style: 'lexend' },
-        ],
-        number: '01'
-    },
-    {
-        path: '/diseno',
-        className: 'diseno',
-        subtitle: null,
-        title: [
-            { text: 'D', style: 'luxurious' },
-            { text: 'ISE', style: 'lexend' },
-            { text: 'Ñ', style: 'luxurious' },
-            { text: 'O', style: 'lexend' },
-        ],
-        number: '02'
-    },
-    {
-        path: '/video',
-        className: 'video',
-        subtitle: 'Producción y edición de',
-        title: [
-            { text: 'V', style: 'luxurious' },
-            { text: 'IDE', style: 'lexend' },
-            { text: 'O', style: 'luxurious' },
-        ],
-        number: '03'
-    },
-    {
-        path: '/foto',
-        className: 'foto',
-        subtitle: null,
-        title: [
-            { text: 'F', style: 'luxurious' },
-            { text: 'OTO', style: 'lexend' },
-            { text: 'G', style: 'luxurious' },
-            { text: 'RA', style: 'lexend' },
-            { text: 'F', style: 'luxurious' },
-            { text: 'ÍA', style: 'lexend' },
-        ],
-        number: '04'
-    }
-];
+import { useLanguage } from '../context/LanguageContext';
 
 const Projects = () => {
+    const { t } = useLanguage();
+    
+    const projectItems = [
+        {
+            path: '/redes',
+            className: 'redes',
+            subtitleKey: 'projects.redes.subtitle',
+            title: [
+                { text: 'R', style: 'luxurious' },
+                { text: 'ED', style: 'lexend' },
+                { text: 'E', style: 'luxurious' },
+                { text: 'S ', style: 'lexend' },
+                { text: 'S', style: 'luxurious' },
+                { text: 'OCI', style: 'lexend' },
+                { text: 'A', style: 'luxurious' },
+                { text: 'LES', style: 'lexend' },
+            ],
+            number: '01'
+        },
+        {
+            path: '/diseno',
+            className: 'diseno',
+            subtitleKey: null,
+            title: [
+                { text: 'D', style: 'luxurious' },
+                { text: 'ISE', style: 'lexend' },
+                { text: 'Ñ', style: 'luxurious' },
+                { text: 'O', style: 'lexend' },
+            ],
+            number: '02'
+        },
+        {
+            path: '/video',
+            className: 'video',
+            subtitleKey: 'projects.video.subtitle',
+            title: [
+                { text: 'V', style: 'luxurious' },
+                { text: 'IDE', style: 'lexend' },
+                { text: 'O', style: 'luxurious' },
+            ],
+            number: '03'
+        },
+        {
+            path: '/foto',
+            className: 'foto',
+            subtitleKey: null,
+            title: [
+                { text: 'F', style: 'luxurious' },
+                { text: 'OTO', style: 'lexend' },
+                { text: 'G', style: 'luxurious' },
+                { text: 'RA', style: 'lexend' },
+                { text: 'F', style: 'luxurious' },
+                { text: 'ÍA', style: 'lexend' },
+            ],
+            number: '04'
+        }
+    ];
+
     return (
         <section className="projects" id="proyectos">
             <motion.div 
@@ -77,7 +80,7 @@ const Projects = () => {
                     <span className="luxurious">O</span>
                     <span className="lexend">S</span>
                 </h2>
-                <p className="projects-intro">Explora mi trabajo en diferentes áreas creativas</p>
+                <p className="projects-intro">{t('projects.intro')}</p>
             </motion.div>
             
             <div className="projects-list">
@@ -92,7 +95,7 @@ const Projects = () => {
                         <Link to={item.path} className={`project-item ${item.className}`}>
                             <span className="project-number">{item.number}</span>
                             <div className="project-content">
-                                {item.subtitle && <h4>{item.subtitle}</h4>}
+                                {item.subtitleKey && <h4>{t(item.subtitleKey)}</h4>}
                                 <h3 className="type-title">
                                     {item.title.map((part, i) => (
                                         <span key={i} className={part.style}>{part.text}</span>

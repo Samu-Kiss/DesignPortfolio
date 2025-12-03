@@ -6,12 +6,17 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import LoadingScreen from './components/LoadingScreen';
+import CustomCursor from './components/CustomCursor';
+import SettingsToggle from './components/SettingsToggle';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
+import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Redes from './pages/Redes';
 import Diseno from './pages/Diseno';
 import Video from './pages/Video';
 import Foto from './pages/Foto';
+import NotFound from './pages/NotFound';
 
 // Componente para scroll to top en cambio de ruta
 const ScrollToTop = () => {
@@ -45,6 +50,7 @@ const AnimatedRoutes = () => {
                 <Route path="/diseno" element={<Diseno />} />
                 <Route path="/video" element={<Video />} />
                 <Route path="/foto" element={<Foto />} />
+                <Route path="*" element={<NotFound />} />
                 </Routes>
             </AnimatePresence>
         </>
@@ -62,16 +68,22 @@ const App = () => {
     };
 
     return (
-        <Router>
-            <AnimatePresence mode="wait">
-                {isLoading && (
-                    <LoadingScreen onLoadingComplete={handleLoadingComplete} />
-                )}
-            </AnimatePresence>
-            <div className={`app-content ${showContent ? 'visible' : ''}`}>
-                <AnimatedRoutes />
-            </div>
-        </Router>
+        <ThemeProvider>
+            <LanguageProvider>
+                <Router>
+                    <CustomCursor />
+                    <SettingsToggle />
+                    <AnimatePresence mode="wait">
+                        {isLoading && (
+                            <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+                        )}
+                    </AnimatePresence>
+                    <div className={`app-content ${showContent ? 'visible' : ''}`}>
+                        <AnimatedRoutes />
+                    </div>
+                </Router>
+            </LanguageProvider>
+        </ThemeProvider>
     );
 };
 
