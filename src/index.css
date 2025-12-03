@@ -1,5 +1,5 @@
 /*src/index.css*/
-@import url('https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lexend:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lexend:wght@400;600;800&display=swap');
 @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css');
 @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
 
@@ -8,6 +8,12 @@
     --primary: #BA181B;
     --secondary: #A4161A;
     --accent: #660708;
+    --dark: #161A1D;
+    --transition-smooth: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
@@ -18,6 +24,214 @@ body {
     width: 100vw;
     overflow-x: hidden;
 }
+
+/* App Content Transition */
+.app-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+}
+
+.app-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================
+   LOADING SCREEN
+   ========================================== */
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    background-color: var(--accent);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.loading-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(186, 24, 27, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(186, 24, 27, 0.1) 0%, transparent 40%),
+        linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.1) 100%);
+    opacity: 0.8;
+}
+
+.loading-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.loading-logo {
+    text-align: center;
+}
+
+.loading-logo-text {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.loading-letter {
+    color: var(--background);
+    display: inline-block;
+}
+
+.loading-letter.luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 8rem;
+    line-height: 1;
+}
+
+.loading-letter.lexend {
+    font-family: 'Lexend', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.loading-subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    color: var(--background);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.loading-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: 50%;
+}
+
+.loading-progress-container {
+    width: 300px;
+}
+
+.loading-progress-track {
+    width: 100%;
+    height: 2px;
+    background-color: rgba(242, 238, 230, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    background-color: var(--background);
+    border-radius: 2px;
+    transition: width 0.3s ease-out;
+}
+
+.loading-progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    color: var(--background);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    opacity: 0.6;
+}
+
+/* Líneas decorativas */
+.loading-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.loading-line {
+    position: absolute;
+    background-color: rgba(242, 238, 230, 0.1);
+}
+
+.loading-line--1 {
+    top: 25%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform-origin: left;
+}
+
+.loading-line--2 {
+    bottom: 25%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform-origin: right;
+}
+
+.loading-line--3 {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    transform-origin: top;
+}
+
+/* Esquinas decorativas */
+.loading-corners {
+    position: absolute;
+    inset: 30px;
+    pointer-events: none;
+}
+
+.loading-corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: rgba(242, 238, 230, 0.3);
+    border-style: solid;
+    border-width: 0;
+}
+
+.loading-corner--tl {
+    top: 0;
+    left: 0;
+    border-top-width: 2px;
+    border-left-width: 2px;
+}
+
+.loading-corner--tr {
+    top: 0;
+    right: 0;
+    border-top-width: 2px;
+    border-right-width: 2px;
+}
+
+.loading-corner--bl {
+    bottom: 0;
+    left: 0;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+}
+
+.loading-corner--br {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+}
+
+/* ==========================================
+   BASE STYLES
+   ========================================== */
 
 h1, h2, h3 {
     font-family: 'Luxurious Script', cursive;
@@ -46,7 +260,7 @@ a:hover {
 }
 
 .navbar {
-    background-color: rgba(242, 238, 230, 0.85);
+    background-color: rgba(242, 238, 230, 0.5);
     color: var(--primary);
     position: sticky;
     top: 0;
@@ -79,13 +293,15 @@ a:hover {
 
 .hero {
     position: relative;
-    height: 110vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     overflow: hidden;
+    margin-top: -60px; /* Compensar altura del navbar */
+    padding-top: 60px; /* Evitar que el contenido quede bajo el navbar */
 }
 
 .hero-background {
@@ -108,6 +324,33 @@ a:hover {
     z-index: 1;
 }
 
+/* Hero Lines */
+.hero-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.hero-line {
+    position: absolute;
+    background-color: rgba(186, 24, 27, 0.1);
+}
+
+.hero-line--horizontal {
+    left: 5%;
+    right: 5%;
+    top: 50%;
+    height: 1px;
+}
+
+.hero-line--vertical {
+    top: 10%;
+    bottom: 10%;
+    left: 50%;
+    width: 1px;
+}
+
 .spline-scene {
     width: 100%;
     height: 100%;
@@ -121,12 +364,22 @@ a:hover {
     width: 90%;
     max-width: 1200px;
     height: 50%;
+    position: relative;
+    z-index: 5;
 }
 
 .hero-left {
     flex: 1;
     text-align: left;
     margin-bottom: 30%;
+}
+
+.hero-accent-line {
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary);
+    margin-top: 20px;
+    transform-origin: left;
 }
 
 .hero-right {
@@ -154,6 +407,7 @@ a:hover {
 .hero-text {
     max-width: 400px;
 }
+
 .hero-subtitle {
     font-size: 1.5rem;
     color: var(--secondary);
@@ -164,6 +418,7 @@ a:hover {
     font-size: 1rem;
     color: var(--secondary);
     margin-top: 20px;
+    line-height: 1.7;
 }
 
 .hero-lottie {
@@ -173,6 +428,44 @@ a:hover {
     transform: translateX(-50%);
     width: 100px;
     height: 100px;
+    z-index: 10;
+}
+
+/* Hero Scroll Indicator */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.hero-scroll-indicator span {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--secondary);
+    opacity: 0.6;
+}
+
+.hero-scroll-line {
+    width: 1px;
+    height: 40px;
+    background-color: rgba(186, 24, 27, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-scroll-dot {
+    width: 3px;
+    height: 8px;
+    background-color: var(--primary);
+    border-radius: 2px;
+    position: absolute;
+    left: -1px;
 }
 
 .about {
@@ -236,57 +529,164 @@ a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 100px 0;
+    position: relative;
+}
+
+.projects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--accent), transparent);
+}
+
+.projects-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.projects-intro {
+    font-size: 1rem;
+    color: var(--secondary);
+    margin-top: 10px;
+    letter-spacing: 1px;
 }
 
 .projects-list {
-    gap: 20px;
     width: 100%;
-    height: 100%;
+    max-width: 1400px;
+    padding: 0 40px;
 }
 
 .project-item {
     display: flex;
-    text-align: center;
-    text-decoration: none;
-    transition: transform 0.3s ease;
-    border-top: var(--accent) 2px solid;
     align-items: center;
-    width: 100%;
-    padding: 10px;
-}
-.redes{
-    display: flex;
-    justify-content: center;
-}
-.diseno{
-    display: flex;
-    justify-content: left;
-    padding-left: 20%;
-}
-.video{
-    display: flex;
-    justify-content: left;
-    padding-left: 40%;
-}
-.foto {
-    border-bottom: var(--accent) 2px solid;
-    justify-content: center;
+    text-decoration: none;
+    border-top: 1px solid rgba(102, 7, 8, 0.2);
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--transition-smooth);
 }
 
-.project-item h4{
+.project-item:last-child {
+    border-bottom: 1px solid rgba(102, 7, 8, 0.2);
+}
+
+.project-number {
+    font-family: 'Lexend', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--secondary);
+    opacity: 0.5;
+    min-width: 40px;
+    transition: opacity 0.3s ease;
+}
+
+.project-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.project-content h4 {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    margin: 0;
     max-width: 200px;
     text-align: right;
-    padding: 15px;
+    opacity: 0.8;
+}
+
+.project-arrow {
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.4s var(--transition-smooth);
+}
+
+.project-arrow i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.project-hover-bg {
+    position: absolute;
+    inset: 0;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--transition-smooth);
+    z-index: -1;
 }
 
 .project-item:hover {
-    transform: scale(1.05);
-    color: var(--primary);
+    padding-left: 40px;
 }
 
-.projects-title{
+.project-item:hover .project-number {
+    opacity: 1;
+    color: var(--background);
+}
+
+.project-item:hover .project-content h4 {
+    color: var(--background);
+    opacity: 1;
+}
+
+.project-item:hover .type-title .luxurious,
+.project-item:hover .type-title .lexend {
+    color: var(--background);
+}
+
+.project-item:hover .project-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    border-color: var(--background);
+    color: var(--background);
+}
+
+.project-item:hover .project-arrow i {
+    transform: translateX(3px);
+}
+
+.project-item:hover .project-hover-bg {
+    transform: scaleX(1);
+}
+
+/* Ajustes específicos por tipo */
+.redes .project-content {
+    justify-content: center;
+}
+
+.diseno .project-content {
+    justify-content: flex-start;
+    padding-left: 15%;
+}
+
+.video .project-content {
+    justify-content: flex-start;
+    padding-left: 30%;
+}
+
+.foto .project-content {
+    justify-content: center;
+}
+
+.projects-title {
     font-weight: bold;
-    justify-self: left;
+    margin: 0;
 }
 
 .projects-title .luxurious {
@@ -299,18 +699,24 @@ a:hover {
     font-size: 5rem;
 }
 
-.type-title{
+.type-title {
     font-weight: bold;
+    margin: 0;
+    transition: color 0.4s ease;
 }
 
 .type-title .luxurious {
     font-family: 'Luxurious Script', cursive;
-    font-size: 5rem;
+    font-size: 4.5rem;
+    color: var(--primary);
+    transition: color 0.4s ease;
 }
 
 .type-title .lexend {
     font-family: 'Lexend', sans-serif;
-    font-size: 4rem;
+    font-size: 3.5rem;
+    color: var(--primary);
+    transition: color 0.4s ease;
 }
 
 .contact {
@@ -955,6 +1361,28 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+    /* Loading Screen Mobile */
+    .loading-letter.luxurious {
+        font-size: 5rem;
+    }
+    
+    .loading-letter.lexend {
+        font-size: 3rem;
+    }
+    
+    .loading-subtitle {
+        font-size: 0.7rem;
+        gap: 10px;
+    }
+    
+    .loading-progress-container {
+        width: 200px;
+    }
+    
+    .loading-corners {
+        inset: 15px;
+    }
+    
     /* Navbar Mobile */
     .hamburger {
         display: flex;
@@ -985,9 +1413,11 @@ a:hover {
     
     /* Hero Mobile */
     .hero {
-        height: auto;
+        height: 100vh;
         min-height: 100vh;
         padding: 20px;
+        padding-top: 80px;
+        margin-top: -55px;
     }
     
     .hero-content {
@@ -1000,6 +1430,10 @@ a:hover {
         margin-bottom: 0;
     }
     
+    .hero-accent-line {
+        margin: 20px auto 0;
+    }
+    
     .hero-title .luxurious {
         font-size: 3.5rem;
     }
@@ -1010,6 +1444,23 @@ a:hover {
     
     .hero-text {
         max-width: 100%;
+        text-align: center;
+    }
+    
+    .hero-tag {
+        margin: 20px auto;
+    }
+    
+    .hero-right {
+        justify-content: center;
+    }
+    
+    .hero-lines {
+        display: none;
+    }
+    
+    .hero-scroll-indicator {
+        bottom: 20px;
     }
     
     /* About Mobile */
@@ -1038,6 +1489,18 @@ a:hover {
     }
     
     /* Projects Mobile */
+    .projects {
+        padding: 60px 0;
+    }
+    
+    .projects-header {
+        margin-bottom: 40px;
+    }
+    
+    .projects-list {
+        padding: 0 15px;
+    }
+    
     .projects-title .luxurious {
         font-size: 4rem;
     }
@@ -1047,24 +1510,58 @@ a:hover {
     }
     
     .project-item {
-        padding: 10px 15px;
+        padding: 20px 10px;
+        flex-wrap: wrap;
     }
     
-    .project-item h4 {
-        max-width: 150px;
-        font-size: 0.9rem;
+    .project-item:hover {
+        padding-left: 10px;
+    }
+    
+    .project-number {
+        display: none;
+    }
+    
+    .project-content {
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+    }
+    
+    .project-content h4 {
+        text-align: center;
+        max-width: 100%;
+        font-size: 0.75rem;
+    }
+    
+    .project-arrow {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        opacity: 0.5;
+    }
+    
+    .project-item:hover .project-arrow {
+        transform: translateY(-50%);
     }
     
     .type-title .luxurious {
-        font-size: 3rem;
-    }
-    
-    .type-title .lexend {
         font-size: 2.5rem;
     }
     
-    .diseno, .video {
-        padding-left: 10%;
+    .type-title .lexend {
+        font-size: 2rem;
+    }
+    
+    .redes .project-content,
+    .diseno .project-content,
+    .video .project-content,
+    .foto .project-content {
+        padding-left: 0;
+        justify-content: center;
     }
     
     /* Contact Mobile */

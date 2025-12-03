@@ -2,6 +2,7 @@
 import React from 'react';
 import Spline from '@splinetool/react-spline';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { motion } from 'motion/react';
 
 const Hero = () => {
     return (
@@ -10,8 +11,14 @@ const Hero = () => {
                 <Spline scene="https://prod.spline.design/v6saoAQrgDCZyu4j/scene.splinecode"/>
                 <div className="hero-gradient"></div>
             </div>
+
             <div className="hero-content">
-                <div className="hero-left">
+                <motion.div 
+                    className="hero-left"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
+                >
                     <h1 className="hero-title">
                         <span className="luxurious">E</span>
                         <span className="lexend">XP</span>
@@ -20,22 +27,43 @@ const Hero = () => {
                         <span className="luxurious">Ó</span>
                         <span className="lexend">N</span>
                     </h1>
-                </div>
-                <div className="hero-right">
+                    <motion.div 
+                        className="hero-accent-line"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1, delay: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                    />
+                </motion.div>
+                <motion.div 
+                    className="hero-right"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4, ease: [0.76, 0, 0.24, 1] }}
+                >
                     <div className="hero-text">
                         <h4 className="hero-subtitle">Por medio de luz, forma, color y movimiento</h4>
                         <p className="hero-description">Lo que hago va más allá de solo transmitir algo, se trata de
                             sumergirse en el contexto de la pieza hasta llegar a su esencia y origen.</p>
                     </div>
+                </motion.div>
+            </div>
+
+            {/* Indicador de scroll */}
+            <motion.div 
+                className="hero-scroll-indicator"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+            >
+                <span>SCROLL</span>
+                <div className="hero-scroll-line">
+                    <motion.div 
+                        className="hero-scroll-dot"
+                        animate={{ y: [0, 15, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    />
                 </div>
-            </div>
-            <div className="hero-lottie">
-                <DotLottieReact
-                    src="https://lottie.host/898e86da-6ce4-4601-9e3f-20a61ce2ee7e/kcjaa6BerZ.lottie"
-                    loop
-                    autoplay
-                />
-            </div>
+            </motion.div>
         </section>
     );
 };
