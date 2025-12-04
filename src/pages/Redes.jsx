@@ -3,52 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import NavbarInternal from '../components/NavbarInternal';
-
-// Datos organizados por cliente/marca
-const clientProjects = [
-    {
-        id: 1,
-        client: 'Marca Deportiva',
-        images: [
-            'https://picsum.photos/seed/marca1a/800/600',
-            'https://picsum.photos/seed/marca1b/600/800',
-            'https://picsum.photos/seed/marca1c/800/800',
-            'https://picsum.photos/seed/marca1d/700/500',
-            'https://picsum.photos/seed/marca1e/600/900',
-        ]
-    },
-    {
-        id: 2,
-        client: 'Startup Tech',
-        images: [
-            'https://picsum.photos/seed/tech2a/700/700',
-            'https://picsum.photos/seed/tech2b/800/600',
-            'https://picsum.photos/seed/tech2c/600/800',
-            'https://picsum.photos/seed/tech2d/900/600',
-        ]
-    },
-    {
-        id: 3,
-        client: 'Restaurante Gourmet',
-        images: [
-            'https://picsum.photos/seed/resto3a/800/800',
-            'https://picsum.photos/seed/resto3b/700/900',
-            'https://picsum.photos/seed/resto3c/800/600',
-            'https://picsum.photos/seed/resto3d/600/700',
-            'https://picsum.photos/seed/resto3e/750/750',
-            'https://picsum.photos/seed/resto3f/800/500',
-        ]
-    },
-    {
-        id: 4,
-        client: 'Academia Online',
-        images: [
-            'https://picsum.photos/seed/acad4a/800/600',
-            'https://picsum.photos/seed/acad4b/600/800',
-            'https://picsum.photos/seed/acad4c/700/700',
-        ]
-    },
-];
+import { useProjects } from '../hooks/useSupabaseStorage';
 
 const pageVariants = {
     initial: { opacity: 0 },
@@ -114,11 +69,12 @@ const InfiniteCarousel = ({ images, client, direction }) => {
 
 const Redes = () => {
     const navigate = useNavigate();
+    const { projects: clientProjects, loading, error } = useProjects('redes');
     
     // Generar direcciones aleatorias una sola vez
     const directions = useMemo(() => 
         clientProjects.map(() => Math.random() > 0.5 ? 'left' : 'right'),
-        []
+        [clientProjects]
     );
 
     const handleBack = (e) => {
@@ -166,31 +122,51 @@ const Redes = () => {
                 <div className="project-header-line"></div>
             </header>
 
+            {/* Loading state */}
+            {loading && (
+                <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <p>Cargando proyectos...</p>
+                </div>
+            )}
+
+            {/* Error state */}
+            {error && (
+                <div className="error-container">
+                    <p>Error al cargar: {error}</p>
+                </div>
+            )}
+
             {/* Carruseles por cliente */}
-            <motion.section 
-                className="redes-carousels"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                {clientProjects.map((client, index) => (
-                    <motion.div 
-                        key={client.id} 
-                        className="redes-carousel-section"
-                        variants={itemVariants}
-                    >
-                        <div className="redes-carousel-header">
-                            <h2 className="redes-carousel-client">{client.client}</h2>
-                        </div>
-                        
-                        <InfiniteCarousel 
-                            images={client.images}
-                            client={client.client}
-                            direction={directions[index]}
-                        />
-                    </motion.div>
-                ))}
-            </motion.section>
+            {!loading && !error && (
+                <motion.section 
+                    className="redes-carousels"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {clientProjects.map((client, index) => (
+                        <motion.div 
+                            key={client.id} 
+                            className="redes-carousel-section"
+                            variants={itemVariants}
+                            onClick={() => navigate(`/proyecto/redes/${client.id}`)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <div className="redes-carousel-header">
+                                <h2 className="redes-carousel-client">{client.client}</h2>
+                                <span className="redes-carousel-link">Ver caso de estudio →</span>
+                            </div>
+                            
+                            <InfiniteCarousel 
+                                images={client.images}
+                                client={client.client}
+                                direction={directions[index]}
+                            />
+                        </motion.div>
+                    ))}
+                </motion.section>
+            )}
         </motion.div>
     );
 };

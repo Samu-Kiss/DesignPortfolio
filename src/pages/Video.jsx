@@ -1,68 +1,9 @@
 // src/pages/Video.jsx
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React from 'react';
+import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import ReactDOM from 'react-dom';
-import useModal from '../hooks/useModal';
 import NavbarInternal from '../components/NavbarInternal';
-
-// Datos de ejemplo - reemplaza con tus proyectos reales
-const videos = [
-    {
-        id: 1,
-        title: 'Documental Corto',
-        tags: ['Documental', 'Storytelling'],
-        duration: '5:30',
-        year: '2024',
-        thumbnail: 'https://picsum.photos/seed/video1/800/450',
-        videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-    },
-    {
-        id: 2,
-        title: 'Comercial TV',
-        tags: ['Publicidad', 'Branding'],
-        duration: '0:30',
-        year: '2024',
-        thumbnail: 'https://picsum.photos/seed/video2/800/450',
-        videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-    },
-    {
-        id: 3,
-        title: 'Video Musical',
-        tags: ['Música', 'Creatividad'],
-        duration: '3:45',
-        year: '2024',
-        thumbnail: 'https://picsum.photos/seed/video3/800/450',
-        videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-    },
-    {
-        id: 4,
-        title: 'Corporativo',
-        tags: ['Institucional', 'Empresarial'],
-        duration: '2:15',
-        year: '2023',
-        thumbnail: 'https://picsum.photos/seed/video4/800/450',
-        videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-    },
-    {
-        id: 5,
-        title: 'Behind the Scenes',
-        tags: ['BTS', 'Producción'],
-        duration: '4:00',
-        year: '2023',
-        thumbnail: 'https://picsum.photos/seed/video5/800/450',
-        videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-    },
-    {
-        id: 6,
-        title: 'Motion Graphics',
-        tags: ['Animación', 'Motion'],
-        duration: '1:00',
-        year: '2024',
-        thumbnail: 'https://picsum.photos/seed/video6/800/450',
-        videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-    },
-];
+import { useProjects } from '../hooks/useSupabaseStorage';
 
 const pageVariants = {
     initial: { opacity: 0 },
@@ -90,97 +31,14 @@ const itemVariants = {
     }
 };
 
-// Componente Modal con Portal para centrar en viewport
-const VideoModal = ({ video, onClose }) => {
-    const videoRef = useRef(null);
-    
-    // Hook para cerrar con Escape
-    useModal(!!video, onClose);
-    
-    // Pausar video al cerrar
-    useEffect(() => {
-        return () => {
-            if (videoRef.current) {
-                videoRef.current.pause();
-                videoRef.current.currentTime = 0;
-            }
-        };
-    }, []);
-    
-    if (!video) return null;
-    
-    return ReactDOM.createPortal(
-        <motion.div
-            className="video-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={onClose}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="video-modal-title"
-        >
-            <motion.div
-                className="video-modal-container"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-                onClick={(e) => e.stopPropagation()}
-            >
-                <button 
-                    className="video-modal-close" 
-                    onClick={onClose}
-                    aria-label="Cerrar video"
-                >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M18 6L6 18M6 6l12 12"/>
-                    </svg>
-                </button>
-                
-                <div className="video-modal-player-wrapper">
-                    <video 
-                        ref={videoRef}
-                        controls 
-                        autoPlay
-                        className="video-modal-player"
-                    >
-                        <source src={video.videoUrl} type="video/mp4" />
-                        Tu navegador no soporta video.
-                    </video>
-                </div>
-                
-                <div className="video-modal-details">
-                    <h2 id="video-modal-title" className="video-modal-title">{video.title}</h2>
-                    <div className="video-modal-tags">
-                        {video.tags.map((tag, i) => (
-                            <span key={i} className="video-modal-tag">{tag}</span>
-                        ))}
-                    </div>
-                </div>
-            </motion.div>
-        </motion.div>,
-        document.body
-    );
-};
-
 const Video = () => {
-    const [activeVideo, setActiveVideo] = useState(null);
     const navigate = useNavigate();
+    const { projects: videos, loading, error } = useProjects('video');
 
     const handleBack = (e) => {
         e.preventDefault();
         navigate('/');
     };
-
-    const openVideo = (video) => {
-        setActiveVideo(video);
-    };
-
-    const closeVideo = useCallback(() => {
-        setActiveVideo(null);
-    }, []);
 
     return (
         <motion.div 
@@ -195,7 +53,9 @@ const Video = () => {
             {/* Header */}
             <header className="project-page-header">
                 <button onClick={handleBack} className="project-back-btn">
-                    <i className="fi fi-rr-arrow-left"></i>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
                 </button>
                 
                 <motion.div 
@@ -215,55 +75,66 @@ const Video = () => {
                 <div className="project-header-line"></div>
             </header>
 
-            {/* Video Grid */}
-            <motion.section 
-                className="video-grid-new"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                {videos.map((video) => (
-                    <motion.article
-                        key={video.id}
-                        className="video-card-new"
-                        variants={itemVariants}
-                        onClick={() => openVideo(video)}
-                    >
-                        <div className="video-card-thumbnail">
-                            <img 
-                                src={video.thumbnail} 
-                                alt={video.title}
-                                loading="lazy"
-                            />
-                            <div className="video-card-overlay">
-                                <div className="video-card-play">
-                                    <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                                        <path d="M5.536 21.886a1.004 1.004 0 0 0 1.033-.064l13-9a1 1 0 0 0 0-1.644l-13-9A1 1 0 0 0 5 3v18a1 1 0 0 0 .536.886z"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <span className="video-card-duration">{video.duration}</span>
-                        </div>
-                        
-                        <div className="video-card-info">
-                            <div className="video-card-meta">
-                                <h3 className="video-card-title">{video.title}</h3>
-                                <span className="video-card-year">{video.year}</span>
-                            </div>
-                            <div className="video-card-tags">
-                                {video.tags.map((tag, i) => (
-                                    <span key={i} className="video-card-tag">{tag}</span>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.article>
-                ))}
-            </motion.section>
+            {/* Loading state */}
+            {loading && (
+                <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <p>Cargando videos...</p>
+                </div>
+            )}
 
-            {/* Video Modal con Portal */}
-            <AnimatePresence>
-                {activeVideo && <VideoModal video={activeVideo} onClose={closeVideo} />}
-            </AnimatePresence>
+            {/* Error state */}
+            {error && (
+                <div className="error-container">
+                    <p>Error al cargar: {error}</p>
+                </div>
+            )}
+
+            {/* Video Grid */}
+            {!loading && !error && (
+                <motion.section 
+                    className="video-grid-new"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {videos.map((video) => {
+                        // Usar coverImage del info.json o buscar thumbnail
+                        const thumbnail = video.coverImage || video.images.find(url => 
+                            url.endsWith('.jpg') || url.endsWith('.png') || url.endsWith('.webp')
+                        ) || video.images[0];
+                        
+                        return (
+                            <motion.article
+                                key={video.id}
+                                className="video-card-new"
+                                variants={itemVariants}
+                                onClick={() => navigate(`/proyecto/video/${video.id}`)}
+                            >
+                                <div className="video-card-thumbnail">
+                                    <img 
+                                        src={thumbnail} 
+                                        alt={video.client}
+                                        loading="lazy"
+                                    />
+                                    <div className="video-card-overlay">
+                                        <div className="video-card-play">
+                                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                                <path d="M5.536 21.886a1.004 1.004 0 0 0 1.033-.064l13-9a1 1 0 0 0 0-1.644l-13-9A1 1 0 0 0 5 3v18a1 1 0 0 0 .536.886z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="video-card-info">
+                                    <h3 className="video-card-title">{video.client}</h3>
+                                    <span className="video-view-link">Ver caso de estudio →</span>
+                                </div>
+                            </motion.article>
+                        );
+                    })}
+                </motion.section>
+            )}
         </motion.div>
     );
 };

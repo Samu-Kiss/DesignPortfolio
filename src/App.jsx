@@ -16,6 +16,7 @@ import Redes from './pages/Redes';
 import Diseno from './pages/Diseno';
 import Video from './pages/Video';
 import Foto from './pages/Foto';
+import Proyecto from './pages/Proyecto';
 import NotFound from './pages/NotFound';
 
 // Componente para scroll to top en cambio de ruta
@@ -50,6 +51,7 @@ const AnimatedRoutes = () => {
                 <Route path="/diseno" element={<Diseno />} />
                 <Route path="/video" element={<Video />} />
                 <Route path="/foto" element={<Foto />} />
+                <Route path="/proyecto/:section/:projectId" element={<Proyecto />} />
                 <Route path="*" element={<NotFound />} />
                 </Routes>
             </AnimatePresence>
