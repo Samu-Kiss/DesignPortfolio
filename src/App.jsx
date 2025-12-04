@@ -8,8 +8,12 @@ import Contact from './components/Contact';
 import LoadingScreen from './components/LoadingScreen';
 import CustomCursor from './components/CustomCursor';
 import SettingsToggle from './components/SettingsToggle';
+import ErrorBoundary from './components/ErrorBoundary';
+import WhatsAppButton from './components/WhatsAppButton';
+import BackToTop from './components/BackToTop';
+import SEO from './components/SEO';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import Redes from './pages/Redes';
@@ -30,6 +34,21 @@ const ScrollToTop = () => {
     return null;
 };
 
+// Page transition wrapper
+const PageTransition = ({ children }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ 
+            duration: 0.4, 
+            ease: [0.76, 0, 0.24, 1]
+        }}
+    >
+        {children}
+    </motion.div>
+);
+
 const AnimatedRoutes = () => {
     const location = useLocation();
     
@@ -39,13 +58,14 @@ const AnimatedRoutes = () => {
             <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
                 <Route path="/" element={
-                    <div>
+                    <PageTransition>
+                        <SEO />
                         <Navbar />
                         <Hero />
                         <About />
                         <Projects />
                         <Contact />
-                    </div>
+                    </PageTransition>
                 } />
                 <Route path="/redes" element={<Redes />} />
                 <Route path="/diseno" element={<Diseno />} />
@@ -72,18 +92,22 @@ const App = () => {
     return (
         <ThemeProvider>
             <LanguageProvider>
-                <Router>
-                    <CustomCursor />
-                    <SettingsToggle />
-                    <AnimatePresence mode="wait">
-                        {isLoading && (
-                            <LoadingScreen onLoadingComplete={handleLoadingComplete} />
-                        )}
-                    </AnimatePresence>
-                    <div className={`app-content ${showContent ? 'visible' : ''}`}>
-                        <AnimatedRoutes />
-                    </div>
-                </Router>
+                <ErrorBoundary>
+                    <Router>
+                        <CustomCursor />
+                        <SettingsToggle />
+                        <WhatsAppButton />
+                        <BackToTop />
+                        <AnimatePresence mode="wait">
+                            {isLoading && (
+                                <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+                            )}
+                        </AnimatePresence>
+                        <div className={`app-content ${showContent ? 'visible' : ''}`}>
+                            <AnimatedRoutes />
+                        </div>
+                    </Router>
+                </ErrorBoundary>
             </LanguageProvider>
         </ThemeProvider>
     );

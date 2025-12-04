@@ -3121,8 +3121,8 @@ html.dark .custom-cursor.hovering {
 
 .settings-toggle {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 100px;
+    right: 32px;
     z-index: 9990;
     display: flex;
     flex-direction: column;
@@ -3626,20 +3626,21 @@ html.dark .case-meta-item::after {
 
 /* Sections */
 .case-section {
-    padding: 120px 80px;
+    padding: 10px 80px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .case-section.case-overview {
     padding-top: 0;
+    text-align: justify;
 }
 
 .case-section-header {
     display: flex;
     align-items: flex-start;
     gap: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 .case-section-number {
@@ -3652,11 +3653,25 @@ html.dark .case-meta-item::after {
 .case-section-title {
     font-family: 'Lexend', sans-serif;
     font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    color: var(--text);
+    font-weight: 800;
+    color: var(--primary);
     margin: 0;
     letter-spacing: -1px;
     position: relative;
+    text-transform: uppercase;
+}
+
+.case-section-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-weight: 700;
+    font-size: 1.3em;
+    text-transform: uppercase;
+}
+
+.case-section-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .case-section-title::after {
@@ -3671,7 +3686,7 @@ html.dark .case-meta-item::after {
 
 .case-section-title.center {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
 }
 
 .case-section-title.center::after {
@@ -3679,25 +3694,29 @@ html.dark .case-meta-item::after {
 }
 
 .case-section-text {
-    font-size: 1.25rem;
-    line-height: 2;
+    font-size: 1.15rem;
+    line-height: 1.9;
     color: var(--text-muted);
-    max-width: 800px;
-    font-weight: 300;
+    max-width: 900px;
+    font-weight: 400;
+    text-align: justify;
+    text-wrap: balance;
 }
 
 .case-overview .case-section-text {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     line-height: 1.8;
     color: var(--text);
-    max-width: 900px;
+    max-width: 1000px;
     font-weight: 400;
     padding-left: 30px;
     border-left: 4px solid var(--primary);
+    text-align: start;
+    text-wrap: balance;
 }
 
 .case-section-content {
-    margin-bottom: 60px;
+    margin-bottom: 50px;
 }
 
 .case-section-media {
@@ -3730,20 +3749,6 @@ html.dark .case-meta-item::after {
 .case-section-media video {
     width: 100%;
     display: block;
-}
-
-/* Alternating Section Layout */
-.case-challenge,
-.case-solution {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-}
-
-.case-challenge .case-section-media,
-.case-solution .case-section-media {
-    margin: 0;
 }
 
 /* Process Steps */
@@ -3867,7 +3872,7 @@ html.dark .case-stat {
 /* Gallery */
 .case-gallery {
     background: var(--background-alt);
-    padding: 120px 80px;
+    padding: 80px 80px;
     margin: 0 -80px;
     position: relative;
 }
@@ -4249,12 +4254,6 @@ html.dark .case-navigation {
         padding: 80px 50px;
     }
     
-    .case-challenge,
-    .case-solution {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-    
     .case-gallery {
         padding: 80px 50px;
         margin: 0 -50px;
@@ -4333,4 +4332,384 @@ html.dark .case-navigation {
         width: 100%;
         justify-content: center;
     }
+}
+
+/* ==========================================
+   FLOATING BUTTONS (WhatsApp & Back to Top)
+   ========================================== */
+
+.whatsapp-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.whatsapp-button i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.whatsapp-tooltip {
+    position: absolute;
+    right: 75px;
+    background: var(--dark);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.whatsapp-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-left-color: var(--dark);
+}
+
+.whatsapp-button:hover .whatsapp-tooltip {
+    opacity: 1;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 160px;
+    right: 32px;
+    width: 48px;
+    height: 48px;
+    background: var(--background);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 6px 25px rgba(186, 24, 27, 0.3);
+}
+
+.back-to-top svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 768px) {
+    .whatsapp-button {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .whatsapp-tooltip {
+        display: none;
+    }
+
+    .back-to-top {
+        bottom: 130px;
+        right: 22px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .back-to-top svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .settings-toggle {
+        bottom: 75px;
+        right: 22px;
+    }
+
+    .toggle-btn {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* ==========================================
+   ERROR BOUNDARY
+   ========================================== */
+
+.error-boundary {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
+    padding: 40px;
+}
+
+.error-boundary-content {
+    text-align: center;
+    max-width: 500px;
+}
+
+.error-boundary-title {
+    font-size: clamp(4rem, 10vw, 8rem);
+    margin: 0 0 20px;
+    color: var(--primary);
+}
+
+.error-boundary-text {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.error-boundary-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.error-boundary-btn {
+    padding: 15px 30px;
+    border: 2px solid var(--text);
+    background: transparent;
+    color: var(--text);
+    font-family: 'Lexend', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.error-boundary-btn:hover {
+    background: var(--text);
+    color: var(--background);
+}
+
+.error-boundary-btn.primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.error-boundary-btn.primary:hover {
+    background: transparent;
+    color: var(--primary);
+}
+
+/* ==========================================
+   CONTACT FORM
+   ========================================== */
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.contact-info {
+    text-align: left;
+}
+
+.contact-info .contact-title {
+    text-align: left;
+}
+
+.contact-info .contact-subtitle {
+    text-align: left;
+}
+
+.contact-info .contact-links {
+    justify-content: flex-start;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.contact-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-form-group input,
+.contact-form-group textarea {
+    padding: 16px 20px;
+    background: var(--background-alt);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-family: 'Lexend', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    transition: all 0.3s ease;
+    resize: none;
+}
+
+.contact-form-group input:focus,
+.contact-form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--background);
+}
+
+.contact-form-group input::placeholder,
+.contact-form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.contact-form-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 35px;
+    background: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    color: white;
+    font-family: 'Lexend', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.contact-form-submit:hover {
+    background: transparent;
+    color: var(--primary);
+}
+
+.contact-form-submit svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 900px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .contact-info {
+        text-align: center;
+    }
+
+    .contact-info .contact-title,
+    .contact-info .contact-subtitle {
+        text-align: center;
+    }
+
+    .contact-info .contact-links {
+        justify-content: center;
+    }
+}
+
+/* ==========================================
+   IMAGE SKELETON LOADER
+   ========================================== */
+
+.image-skeleton-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: var(--background-alt);
+}
+
+.image-skeleton-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.skeleton-loader {
+    position: absolute;
+    inset: 0;
+    background: var(--background-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skeleton-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.1) 50%,
+        transparent 100%
+    );
+    animation: shimmer 1.5s infinite;
+}
+
+html.dark .skeleton-shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.05) 50%,
+        transparent 100%
+    );
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.image-error {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background-alt);
+    color: var(--text-muted);
+}
+
+.image-error svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
 }

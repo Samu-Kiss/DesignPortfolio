@@ -2,26 +2,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
 
 const SettingsToggle = () => {
     const { isDark, toggleTheme } = useTheme();
-    const { language, toggleLanguage } = useLanguage();
 
     return (
         <div className="settings-toggle">
-            {/* Language Toggle */}
-            <motion.button
-                className="toggle-btn language-toggle"
-                onClick={toggleLanguage}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-                title={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            >
-                <span className="toggle-text">{language.toUpperCase()}</span>
-            </motion.button>
-
             {/* Theme Toggle */}
             <motion.button
                 className="toggle-btn theme-toggle"

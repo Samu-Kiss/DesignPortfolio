@@ -6,6 +6,42 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import NavbarInternal from './NavbarInternal';
 
+// Helper para alternar fuentes en títulos
+const AlternatingTitle = ({ text }) => {
+    // Definir qué letras van en luxurious para cada título
+    // Contando espacios: E l _ R e t o (0,1,2,3,4,5,6)
+    const luxuriousPatterns = {
+        // Español
+        'El Reto': [0, 3, 5],            // E, R, t
+        'El Proceso': [0, 4, 8],         // E, P, c
+        'La Solución': [0, 3, 7],        // L, S, c
+        'Resultados': [0, 4, 7],         // R, l, d
+        'Galería': [0, 3, 5],            // G, e, í
+        'Resumen': [0, 3, 5],            // R, u, e
+        'Herramientas': [0, 4, 8],       // H, a, e
+        // English
+        'The Challenge': [0, 4, 8],      // T, C, l
+        'The Process': [0, 4, 7],        // T, P, e
+        'The Solution': [0, 4, 8],       // T, S, t
+        'Results': [0, 3, 5],            // R, u, t
+        'Gallery': [0, 3, 5],            // G, l, r
+        'Overview': [0, 3, 5],           // O, r, i
+        'Tools': [0, 2, 4]               // T, o, s
+    };
+    
+    const pattern = luxuriousPatterns[text] || [];
+    
+    return (
+        <>
+            {text.split('').map((char, i) => (
+                <span key={i} className={pattern.includes(i) ? 'luxurious' : 'lexend'}>
+                    {char}
+                </span>
+            ))}
+        </>
+    );
+};
+
 const CaseStudy = ({ 
     project,
     type = 'video' // 'video', 'design', 'photo', 'redes'
@@ -238,7 +274,7 @@ const CaseStudy = ({
                     <div className="case-section-content">
                         <div className="case-section-header">
                             <span className="case-section-number">01</span>
-                            <h2 className="case-section-title">{t.challenge}</h2>
+                            <h2 className="case-section-title"><AlternatingTitle text={t.challenge} /></h2>
                         </div>
                         <p className="case-section-text">{project.challenge}</p>
                     </div>
@@ -267,7 +303,7 @@ const CaseStudy = ({
                     <div className="case-section-content">
                         <div className="case-section-header">
                             <span className="case-section-number">02</span>
-                            <h2 className="case-section-title">{t.process}</h2>
+                            <h2 className="case-section-title"><AlternatingTitle text={t.process} /></h2>
                         </div>
                         {typeof project.process === 'string' ? (
                             <p className="case-section-text">{project.process}</p>
@@ -306,7 +342,7 @@ const CaseStudy = ({
                     <div className="case-section-content">
                         <div className="case-section-header">
                             <span className="case-section-number">03</span>
-                            <h2 className="case-section-title">{t.solution}</h2>
+                            <h2 className="case-section-title"><AlternatingTitle text={t.solution} /></h2>
                         </div>
                         <p className="case-section-text">{project.solution}</p>
                     </div>
@@ -333,7 +369,7 @@ const CaseStudy = ({
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        {t.gallery}
+                        <AlternatingTitle text={t.gallery} />
                     </motion.h2>
                     <div className="case-gallery-grid">
                         {project.gallery.map((item, index) => {
@@ -451,7 +487,7 @@ const CaseStudy = ({
                     <div className="case-section-content">
                         <div className="case-section-header">
                             <span className="case-section-number">04</span>
-                            <h2 className="case-section-title">{t.results}</h2>
+                            <h2 className="case-section-title"><AlternatingTitle text={t.results} /></h2>
                         </div>
                         {typeof project.results === 'string' ? (
                             <p className="case-section-text">{project.results}</p>
@@ -484,7 +520,7 @@ const CaseStudy = ({
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                 >
-                    <h2 className="case-section-title center">{t.tools}</h2>
+                    <h2 className="case-section-title center"><AlternatingTitle text={t.tools} /></h2>
                     <div className="case-tools-list">
                         {project.tools.map((tool, index) => (
                             <motion.span 

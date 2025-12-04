@@ -121,13 +121,10 @@ const translations = {
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState(() => {
-        const saved = localStorage.getItem('portfolio-language');
-        return saved || 'es';
-    });
+    // Siempre español por defecto
+    const [language, setLanguage] = useState('es');
 
     useEffect(() => {
-        localStorage.setItem('portfolio-language', language);
         document.documentElement.lang = language;
     }, [language]);
 
