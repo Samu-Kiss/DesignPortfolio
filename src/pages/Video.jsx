@@ -109,7 +109,8 @@ const Video = () => {
                                 key={video.id}
                                 className="video-card-new"
                                 variants={itemVariants}
-                                onClick={() => navigate(`/proyecto/video/${video.id}`)}
+                                onClick={() => video.hasInfoJson && navigate(`/proyecto/video/${video.id}`)}
+                                style={{ cursor: video.hasInfoJson ? 'pointer' : 'default' }}
                             >
                                 <div className="video-card-thumbnail">
                                     <img 
@@ -117,18 +118,20 @@ const Video = () => {
                                         alt={video.client}
                                         loading="lazy"
                                     />
-                                    <div className="video-card-overlay">
-                                        <div className="video-card-play">
-                                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                                                <path d="M5.536 21.886a1.004 1.004 0 0 0 1.033-.064l13-9a1 1 0 0 0 0-1.644l-13-9A1 1 0 0 0 5 3v18a1 1 0 0 0 .536.886z"/>
-                                            </svg>
+                                    {video.hasInfoJson && (
+                                        <div className="video-card-overlay">
+                                            <div className="video-card-play">
+                                                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                                    <path d="M5.536 21.886a1.004 1.004 0 0 0 1.033-.064l13-9a1 1 0 0 0 0-1.644l-13-9A1 1 0 0 0 5 3v18a1 1 0 0 0 .536.886z"/>
+                                                </svg>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                                 
                                 <div className="video-card-info">
                                     <h3 className="video-card-title">{video.client}</h3>
-                                    <span className="video-view-link">Ver caso de estudio →</span>
+                                    {video.hasInfoJson && <span className="video-view-link">Ver caso de estudio →</span>}
                                 </div>
                             </motion.article>
                         );

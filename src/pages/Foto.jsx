@@ -105,9 +105,10 @@ const Foto = () => {
                             key={photoSet.id}
                             className="foto-item foto-item-project"
                             variants={itemVariants}
-                            onClick={() => navigate(`/proyecto/foto/${photoSet.id}`)}
-                            whileHover={{ scale: 1.02 }}
+                            onClick={() => photoSet.hasInfoJson && navigate(`/proyecto/foto/${photoSet.id}`)}
+                            whileHover={{ scale: photoSet.hasInfoJson ? 1.02 : 1 }}
                             transition={{ duration: 0.3 }}
+                            style={{ cursor: photoSet.hasInfoJson ? 'pointer' : 'default' }}
                         >
                             <img 
                                 src={photoSet.coverImage || photoSet.images[0]} 
@@ -117,7 +118,7 @@ const Foto = () => {
                             <div className="foto-item-overlay">
                                 <h3 className="foto-item-title">{photoSet.client}</h3>
                                 <span className="foto-item-count">{photoSet.images.length} fotos</span>
-                                <span className="foto-view-link">Ver caso de estudio →</span>
+                                {photoSet.hasInfoJson && <span className="foto-view-link">Ver caso de estudio →</span>}
                             </div>
                         </motion.article>
                     ))}

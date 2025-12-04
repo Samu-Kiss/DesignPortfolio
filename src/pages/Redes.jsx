@@ -150,12 +150,12 @@ const Redes = () => {
                             key={client.id} 
                             className="redes-carousel-section"
                             variants={itemVariants}
-                            onClick={() => navigate(`/proyecto/redes/${client.id}`)}
-                            style={{ cursor: 'pointer' }}
+                            onClick={() => client.hasInfoJson && navigate(`/proyecto/redes/${client.id}`)}
+                            style={{ cursor: client.hasInfoJson ? 'pointer' : 'default' }}
                         >
                             <div className="redes-carousel-header">
                                 <h2 className="redes-carousel-client">{client.client}</h2>
-                                <span className="redes-carousel-link">Ver caso de estudio →</span>
+                                {client.hasInfoJson && <span className="redes-carousel-link">Ver caso de estudio →</span>}
                             </div>
                             
                             <InfiniteCarousel 

@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
-import pfpImage from '../assets/PFP.png';
+import { getPublicUrl } from '../lib/supabase';
 import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
     const { t } = useLanguage();
+    
+    // Obtener la imagen del bucket de Supabase dentro del componente
+    const pfpImage = useMemo(() => {
+        try {
+            return getPublicUrl('Portfolio', 'PFP.png');
+        } catch (e) {
+            console.warn('Error getting PFP image URL:', e);
+            return null;
+        }
+    }, []);
     
     const programas = [
         'Photoshop',

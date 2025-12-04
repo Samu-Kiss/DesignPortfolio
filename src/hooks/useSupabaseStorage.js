@@ -202,29 +202,44 @@ export const useProjects = (section) => {
                             }
                         }
 
-                        // Filtrar archivos de imagen/video (excluir info.json)
+                        // Filtrar archivos de imagen/video (excluir info.json y archivos ocultos)
                         const mediaFiles = files.filter(file => 
                             file.name !== '.emptyFolderPlaceholder' && 
-                            file.name !== 'info.json'
+                            file.name !== 'info.json' &&
+                            !file.name.startsWith('.')
                         );
 
-                        const images = mediaFiles.map(file => getPublicUrl(BUCKET, `${folderPath}/${file.name}`));
+                        const images = mediaFiles
+                            .map(file => getPublicUrl(BUCKET, `${folderPath}/${file.name}`))
+                            .filter(url => url && url.startsWith('http'));
 
                         // Determinar imagen de cover para preview
-                        let coverImage = images[0];
+                        let coverImage = images.length > 0 ? images[0] : null;
                         if (info.coverImage) {
-                            const coverFile = mediaFiles.find(f => f.name.toLowerCase() === info.coverImage.toLowerCase());
+                            // Buscar el archivo que coincida con coverImage (puede o no tener extensión)
+                            const coverFile = mediaFiles.find(f => {
+                                const fileName = f.name.toLowerCase();
+                                const coverName = info.coverImage.toLowerCase();
+                                return fileName === coverName || fileName.startsWith(coverName + '.');
+                            });
                             if (coverFile) {
-                                coverImage = getPublicUrl(BUCKET, `${folderPath}/${coverFile.name}`);
+                                const url = getPublicUrl(BUCKET, `${folderPath}/${coverFile.name}`);
+                                if (url && url.startsWith('http')) {
+                                    coverImage = url;
+                                }
                             }
                         }
+
+                        // Desestructurar info para evitar que coverImage del JSON sobrescriba la URL
+                        const { coverImage: _, bannerImage: __, ...restInfo } = info;
 
                         return {
                             id: folder.name,
                             client: info.title || folder.name.replace(/-/g, ' ').replace(/_/g, ' '),
                             images,
                             coverImage,
-                            ...info
+                            hasInfoJson,
+                            ...restInfo
                         };
                     })
                 );

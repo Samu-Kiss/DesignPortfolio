@@ -35,6 +35,9 @@ const Diseno = () => {
     const navigate = useNavigate();
     const { projects, loading, error } = useProjects('diseno');
 
+    // Debug log
+    console.log('Diseño projects:', projects);
+
     const handleBack = (e) => {
         e.preventDefault();
         navigate('/');
@@ -98,12 +101,13 @@ const Diseno = () => {
                     initial="hidden"
                     animate="visible"
                 >
-                    {projects.map((project, index) => (
+                    {projects.filter(p => p.images.length > 0).map((project, index) => (
                     <motion.article
                         key={project.id}
                         className={`diseno-project ${index % 2 === 0 ? 'diseno-project--left' : 'diseno-project--right'}`}
                         variants={itemVariants}
-                        onClick={() => navigate(`/proyecto/diseno/${project.id}`)}
+                        onClick={() => project.hasInfoJson && navigate(`/proyecto/diseno/${project.id}`)}
+                        style={{ cursor: project.hasInfoJson ? 'pointer' : 'default' }}
                     >
                         <div className="diseno-project-image">
                             <img 
@@ -111,15 +115,17 @@ const Diseno = () => {
                                 alt={project.title || project.client}
                                 loading="lazy"
                             />
-                            <div className="diseno-project-overlay">
-                                <span className="diseno-view-btn">Ver proyecto</span>
-                            </div>
+                            {project.hasInfoJson && (
+                                <div className="diseno-project-overlay">
+                                    <span className="diseno-view-btn">Ver proyecto</span>
+                                </div>
+                            )}
                         </div>
                         
                         <div className="diseno-project-info">
                             <h3 className="diseno-project-title">{project.client}</h3>
                             <p className="diseno-project-client">{project.images.length} imágenes</p>
-                            <span className="diseno-view-link">Ver caso de estudio →</span>
+                            {project.hasInfoJson && <span className="diseno-view-link">Ver caso de estudio →</span>}
                         </div>
                     </motion.article>
                 ))}
