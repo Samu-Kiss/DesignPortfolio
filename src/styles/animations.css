@@ -1,25 +1,26 @@
-/* src/styles/animations.css - Keyframes y animaciones compartidas */
+/* src/styles/animations.css - Keyframes y animaciones optimizadas para GPU */
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.2); }
+    0%, 100% { opacity: 1; transform: scale3d(1, 1, 1); }
+    50% { opacity: 0.5; transform: scale3d(1.2, 1.2, 1); }
 }
 
+/* Marquee optimizado - usa translate3d para GPU acceleration */
 @keyframes scrollRight {
     0% {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
     }
 }
 
 @keyframes scrollLeft {
     0% {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
     }
     100% {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
     }
 }
 
@@ -28,16 +29,40 @@
 }
 
 @keyframes float404 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(-2%, -2%) rotate(5deg); }
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(-2%, -2%, 0) rotate(5deg); }
 }
 
 @keyframes pulse404 {
-    0%, 100% { transform: scale(1); opacity: 0.1; }
-    50% { transform: scale(1.1); opacity: 0.15; }
+    0%, 100% { transform: scale3d(1, 1, 1); opacity: 0.1; }
+    50% { transform: scale3d(1.1, 1.1, 1); opacity: 0.15; }
 }
 
 @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% { transform: translate3d(-100%, 0, 0); }
+    100% { transform: translate3d(100%, 0, 0); }
+}
+
+/* Fade in optimizado */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Scale in optimizado */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.9, 0.9, 1);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
 }

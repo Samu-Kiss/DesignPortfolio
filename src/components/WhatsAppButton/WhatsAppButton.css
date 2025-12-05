@@ -1,4 +1,4 @@
-/* src/components/WhatsAppButton/WhatsAppButton.css */
+/* src/components/WhatsAppButton/WhatsAppButton.css - Optimizado para GPU */
 
 .whatsapp-button {
     position: fixed;
@@ -16,6 +16,16 @@
     z-index: 1000;
     cursor: pointer;
     text-decoration: none;
+    /* Transiciones optimizadas */
+    transition: transform var(--transition-normal, 0.25s) ease,
+                box-shadow var(--transition-normal, 0.25s) ease;
+    /* GPU acceleration */
+    transform: translateZ(0);
+}
+
+.whatsapp-button:hover {
+    transform: translate3d(0, -3px, 0) scale3d(1.05, 1.05, 1);
+    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
 }
 
 .whatsapp-button i {
@@ -36,7 +46,9 @@
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-normal, 0.25s) ease;
+    /* GPU acceleration */
+    transform: translateZ(0);
 }
 
 .whatsapp-tooltip::after {
@@ -63,5 +75,21 @@
 
     .whatsapp-tooltip {
         display: none;
+    }
+}
+
+/* Touch feedback */
+@media (hover: none) {
+    .whatsapp-button {
+        transition: transform var(--transition-fast, 0.15s) ease;
+    }
+    
+    .whatsapp-button:hover {
+        transform: translateZ(0);
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    }
+    
+    .whatsapp-button:active {
+        transform: scale3d(0.95, 0.95, 1);
     }
 }

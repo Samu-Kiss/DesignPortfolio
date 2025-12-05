@@ -1,4 +1,4 @@
-/* src/components/BackToTop/BackToTop.css */
+/* src/components/BackToTop/BackToTop.css - Optimizado para GPU */
 
 .back-to-top {
     position: fixed;
@@ -16,13 +16,20 @@
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     z-index: 1000;
     cursor: pointer;
-    transition: all 0.3s ease;
+    /* Transiciones optimizadas */
+    transition: background-color var(--transition-fast, 0.15s) ease,
+                color var(--transition-fast, 0.15s) ease,
+                transform var(--transition-normal, 0.25s) ease,
+                box-shadow var(--transition-normal, 0.25s) ease;
+    /* GPU acceleration */
+    transform: translateZ(0);
 }
 
 .back-to-top:hover {
     background: var(--primary);
     color: white;
     box-shadow: 0 6px 25px rgba(186, 24, 27, 0.3);
+    transform: translate3d(0, -3px, 0);
 }
 
 .back-to-top svg {
@@ -36,10 +43,30 @@
         right: 22px;
         width: 42px;
         height: 42px;
+        /* Remover will-change en móvil */
+        will-change: auto;
     }
 
     .back-to-top svg {
         width: 18px;
         height: 18px;
+    }
+    
+    .back-to-top:hover {
+        transform: translateZ(0);
+    }
+}
+
+/* Touch feedback */
+@media (hover: none) {
+    .back-to-top {
+        transition: background-color var(--transition-fast, 0.15s) ease,
+                    transform var(--transition-fast, 0.15s) ease;
+    }
+    
+    .back-to-top:active {
+        background: var(--primary);
+        color: white;
+        transform: scale3d(0.95, 0.95, 1);
     }
 }

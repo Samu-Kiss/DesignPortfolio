@@ -1,4 +1,4 @@
-/* src/components/Projects/Projects.css */
+/* src/components/Projects/Projects.css - Optimizado para GPU */
 
 .projects {
     display: flex;
@@ -6,6 +6,8 @@
     align-items: center;
     padding: 100px 0;
     position: relative;
+    /* Contener layout */
+    contain: layout style;
 }
 
 .projects::before {
@@ -44,7 +46,16 @@
     padding: 30px 20px;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s var(--transition-smooth);
+    /* Transiciones optimizadas - solo propiedades necesarias */
+    transition: background-color var(--transition-normal, 0.25s) var(--transition-smooth),
+                transform var(--transition-normal, 0.25s) var(--transition-smooth);
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.project-item:hover {
+    transform: translate3d(10px, 0, 0);
 }
 
 .project-item:last-child {
@@ -87,14 +98,15 @@
     justify-content: center;
     color: var(--accent);
     opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.4s var(--transition-smooth);
+    transform: translate3d(-20px, 0, 0);
+    transition: opacity var(--transition-normal, 0.25s) var(--transition-smooth),
+                transform var(--transition-normal, 0.25s) var(--transition-smooth);
 }
 
 .project-arrow svg {
     width: 22px;
     height: 22px;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-fast, 0.15s) ease;
 }
 
 .project-hover-bg {
