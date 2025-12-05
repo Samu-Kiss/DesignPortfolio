@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import './NotFound/NotFound.css';
 
 const NotFound = () => {
     const { language } = useLanguage();

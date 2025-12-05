@@ -1,0 +1,336 @@
+/* src/pages/Diseno/Diseno.css */
+
+.page-diseno {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+.diseno-projects {
+    padding: 40px 60px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.diseno-project {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.diseno-project--right {
+    grid-template-columns: 1fr 1.2fr;
+}
+
+.diseno-project--right .diseno-project-image {
+    order: 2;
+}
+
+.diseno-project--right .diseno-project-info {
+    order: 1;
+    text-align: right;
+}
+
+.diseno-project--right .diseno-project-tags {
+    justify-content: flex-end;
+}
+
+.diseno-project-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.diseno-project-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.6s ease;
+}
+
+.diseno-project:hover .diseno-project-image img {
+    transform: scale(1.05);
+}
+
+.diseno-project-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.diseno-project:hover .diseno-project-overlay {
+    opacity: 1;
+}
+
+.diseno-view-btn {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: white;
+    padding: 15px 30px;
+    border: 1px solid white;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.diseno-view-btn:hover {
+    background: white;
+    color: var(--accent);
+}
+
+.diseno-view-link {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+}
+
+.diseno-project:hover .diseno-view-link {
+    color: var(--primary);
+}
+
+.diseno-project-info {
+    padding: 20px 0;
+}
+
+.diseno-project-category {
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 15px;
+}
+
+.diseno-project-title {
+    font-family: 'Lexend', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 10px;
+}
+
+.diseno-project-client {
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 20px;
+}
+
+.diseno-project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.diseno-tag {
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.diseno-project:hover .diseno-tag {
+    background: var(--accent);
+    color: var(--background);
+}
+
+/* Diseño Modal */
+.diseno-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+html.dark .diseno-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+.diseno-modal-content {
+    background: var(--background);
+    border-radius: 16px;
+    max-width: 1000px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.diseno-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.diseno-modal-close:hover {
+    background: var(--accent);
+}
+
+.diseno-modal-close svg {
+    width: 20px;
+    height: 20px;
+    color: var(--accent);
+    transition: color 0.3s ease;
+}
+
+.diseno-modal-close:hover svg {
+    color: var(--background);
+}
+
+.diseno-modal-header {
+    padding: 50px 50px 30px;
+    text-align: center;
+}
+
+.diseno-modal-category {
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.diseno-modal-title {
+    font-family: 'Lexend', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 15px 0 5px;
+}
+
+.diseno-modal-client {
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.diseno-modal-gallery {
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.diseno-modal-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.diseno-modal-footer {
+    padding: 30px 50px 50px;
+}
+
+.diseno-modal-description {
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    text-align: center;
+    margin: 0 0 25px;
+}
+
+.diseno-modal-tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Kerning específico para DISEÑO */
+.page-diseno .project-page-title .luxurious {
+    margin-left: -0.4em;
+    margin-right: -0.4em;
+}
+
+.page-diseno .project-page-title .luxurious:first-child {
+    margin-left: 0;
+}
+
+/* Responsive Diseño */
+@media (max-width: 1024px) {
+    .diseno-project,
+    .diseno-project--right {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .diseno-project--right .diseno-project-image,
+    .diseno-project--right .diseno-project-info {
+        order: unset;
+        text-align: left;
+    }
+    
+    .diseno-project--right .diseno-project-tags {
+        justify-content: flex-start;
+    }
+    
+    .diseno-project-title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 968px) {
+    .diseno-projects {
+        padding: 30px 40px 80px;
+        gap: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .diseno-projects {
+        padding: 20px 20px 60px;
+    }
+    
+    .diseno-project-title {
+        font-size: 24px;
+    }
+    
+    .diseno-modal {
+        padding: 20px;
+    }
+    
+    .diseno-modal-header,
+    .diseno-modal-footer {
+        padding: 30px 25px;
+    }
+    
+    .diseno-modal-gallery {
+        padding: 0 15px;
+    }
+}

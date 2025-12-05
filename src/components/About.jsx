@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import { getPublicUrl } from '../lib/supabase';
 import { useLanguage } from '../context/LanguageContext';
+import './About/About.css';
 
 const About = () => {
     const { t } = useLanguage();

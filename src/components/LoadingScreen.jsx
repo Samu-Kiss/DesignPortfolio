@@ -1,6 +1,7 @@
 // src/components/LoadingScreen.jsx
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import './LoadingScreen/LoadingScreen.css';
 
 const LoadingScreen = ({ onLoadingComplete }) => {
     const [progress, setProgress] = useState(0);

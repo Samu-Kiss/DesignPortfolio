@@ -1,6 +1,7 @@
 // src/components/shared/VideoModal.jsx
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import './VideoModal.css';
 
 const VideoModal = ({ video, isOpen, onClose }) => {
     if (!isOpen || !video) return null;

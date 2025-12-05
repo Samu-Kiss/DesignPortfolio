@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import CaseStudy from '../components/CaseStudy';
 import { useProject, useStorageFolders } from '../hooks/useSupabaseStorage';
 import { useLanguage } from '../context/LanguageContext';
+import './Proyecto/Proyecto.css';
 
 const Proyecto = () => {
     const { section, projectId } = useParams();

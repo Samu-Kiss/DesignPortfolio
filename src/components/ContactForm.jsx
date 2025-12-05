@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
+import './ContactForm/ContactForm.css';
 
 const ContactForm = () => {
     const { language } = useLanguage();

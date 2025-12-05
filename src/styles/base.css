@@ -1,0 +1,98 @@
+/* src/styles/base.css - Estilos base, variables y reset */
+@import url('https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Lexend:wght@400;600;800&display=swap');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
+:root {
+    --background: #F2EEE6;
+    --background-alt: #E8E4DB;
+    --text: #161A1D;
+    --text-muted: #4A4A4A;
+    --primary: #BA181B;
+    --secondary: #A4161A;
+    --accent: #660708;
+    --dark: #161A1D;
+    --transition-smooth: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Dark Mode */
+html.dark {
+    --background: #161A1D;
+    --background-alt: #1E2328;
+    --text: #F2EEE6;
+    --text-muted: #A8A8A8;
+    --primary: #E63946;
+    --secondary: #D62839;
+    --accent: #FF6B6B;
+    --dark: #0D0F11;
+}
+
+html.dark body {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lexend', sans-serif;
+    background-color: var(--background);
+    color: var(--primary);
+    width: 100%;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+/* Hide cursor on all interactive elements */
+a, button, input, textarea, select, [role="button"], .nav-links li {
+    cursor: none !important;
+}
+
+/* App Content Transition */
+.app-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+}
+
+.app-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================
+   BASE TYPOGRAPHY
+   ========================================== */
+
+h1, h2, h3 {
+    font-family: 'Luxurious Script', cursive;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+h4 {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+p {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 400;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

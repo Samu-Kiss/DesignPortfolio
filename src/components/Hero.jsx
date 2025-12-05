@@ -4,6 +4,7 @@ import Spline from '@splinetool/react-spline';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
+import './Hero/Hero.css';
 
 const Hero = () => {
     const { t } = useLanguage();

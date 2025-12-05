@@ -1,0 +1,45 @@
+/* src/components/NavbarInternal/NavbarInternal.css */
+
+.navbar-internal {
+    background-color: rgba(242, 238, 230, 0.5);
+    color: var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+html.dark .navbar-internal {
+    background-color: rgba(22, 26, 29, 0.9);
+}
+
+.nav-home-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    border-radius: 30px;
+    color: var(--primary);
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-home-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.nav-home-btn svg {
+    width: 18px;
+    height: 18px;
+}

@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import NavbarInternal from '../components/NavbarInternal';
 import { useProjects } from '../hooks/useSupabaseStorage';
+import './Redes/Redes.css';
 
 const pageVariants = {
     initial: { opacity: 0 },

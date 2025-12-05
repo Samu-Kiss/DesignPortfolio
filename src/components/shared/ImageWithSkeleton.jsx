@@ -1,6 +1,7 @@
 // src/components/shared/ImageWithSkeleton.jsx
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import './ImageWithSkeleton.css';
 
 const ImageWithSkeleton = ({ 
     src, 

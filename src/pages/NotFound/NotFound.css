@@ -1,0 +1,186 @@
+/* src/pages/NotFound/NotFound.css */
+
+.page-404 {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-404::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(186, 24, 27, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(102, 7, 8, 0.03) 0%, transparent 50%);
+    animation: float404 20s ease-in-out infinite;
+}
+
+.error-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+}
+
+.error-code {
+    font-size: clamp(8rem, 25vw, 18rem);
+    line-height: 0.9;
+    margin: 0 0 20px;
+    position: relative;
+}
+
+.error-code .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.error-code .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.error-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.error-line {
+    width: 60px;
+    height: 2px;
+    background: var(--primary);
+}
+
+.error-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+.error-message {
+    font-family: 'Lexend', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 500;
+    color: var(--dark);
+    margin: 0 0 15px;
+}
+
+html.dark .error-message {
+    color: var(--text);
+}
+
+.error-submessage {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 0 0 40px;
+    opacity: 0.7;
+}
+
+.error-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 40px;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.error-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.error-link:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(186, 24, 27, 0.35);
+    text-decoration: none;
+}
+
+.error-link:hover::before {
+    left: 100%;
+}
+
+.error-link svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.error-link:hover svg {
+    transform: translateX(5px);
+}
+
+/* Decorative elements */
+.error-shapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.error-shape {
+    position: absolute;
+    border: 2px solid var(--primary);
+    opacity: 0.1;
+    border-radius: 50%;
+}
+
+.error-shape:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: -100px;
+    animation: pulse404 4s ease-in-out infinite;
+}
+
+.error-shape:nth-child(2) {
+    width: 200px;
+    height: 200px;
+    bottom: 15%;
+    right: -50px;
+    animation: pulse404 4s ease-in-out infinite 1s;
+}
+
+.error-shape:nth-child(3) {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    left: 10%;
+    animation: pulse404 4s ease-in-out infinite 2s;
+}
+
+@media (max-width: 768px) {
+    .error-shape {
+        display: none;
+    }
+}

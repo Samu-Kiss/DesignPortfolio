@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import NavbarInternal from './NavbarInternal';
+import './CaseStudy/CaseStudy.css';
 
 // Helper para alternar fuentes en títulos
 const AlternatingTitle = ({ text }) => {

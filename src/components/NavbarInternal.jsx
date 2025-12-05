@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import './NavbarInternal/NavbarInternal.css';
 
 const NavbarInternal = () => {
     const navigate = useNavigate();

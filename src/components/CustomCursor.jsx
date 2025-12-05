@@ -1,6 +1,7 @@
 // src/components/CustomCursor.jsx
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import './CustomCursor/CustomCursor.css';
 
 const CustomCursor = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

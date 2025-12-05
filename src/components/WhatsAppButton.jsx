@@ -1,6 +1,7 @@
 // src/components/WhatsAppButton.jsx
 import React from 'react';
 import { motion } from 'motion/react';
+import './WhatsAppButton/WhatsAppButton.css';
 
 const WhatsAppButton = () => {
     const phoneNumber = '573028444146';

@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
+import './SettingsToggle/SettingsToggle.css';
 
 const SettingsToggle = () => {
     const { isDark, toggleTheme } = useTheme();

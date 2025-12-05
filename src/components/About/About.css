@@ -1,0 +1,252 @@
+/* src/components/About/About.css */
+
+.about {
+    min-height: 100vh;
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background: var(--background);
+    overflow: hidden;
+}
+
+.about-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 60px;
+}
+
+.about-divider::before,
+.about-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.3;
+}
+
+.about-divider-text {
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+}
+
+.about-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.about-img-wrapper {
+    flex: 0 0 auto;
+    position: relative;
+}
+
+.about-img {
+    width: 400px;
+    height: auto;
+    display: block;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.about-content {
+    flex: 1;
+    max-width: 480px;
+}
+
+.about-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.about-tag-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.about-tag span:last-child {
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--primary);
+}
+
+.about-title {
+    font-size: clamp(48px, 8vw, 72px);
+    line-height: 1;
+    margin-bottom: 24px;
+    color: var(--accent);
+}
+
+html.dark .about-title {
+    color: var(--text);
+}
+
+.about-title .luxurious {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: inherit;
+}
+
+.about-title .lexend {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+}
+
+.about-description {
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 30px;
+}
+
+html.dark .about-text {
+    color: var(--text-muted);
+}
+
+.about-description strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.about-programs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.about-programs-label {
+    font-family: 'Lexend', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.6;
+}
+
+.about-programs-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.about-program-tag {
+    font-family: 'Lexend', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 6px 14px;
+    background: rgba(102, 7, 8, 0.08);
+    border: 1px solid rgba(102, 7, 8, 0.15);
+    border-radius: 20px;
+    color: var(--accent);
+    transition: all 0.3s ease;
+}
+
+.about-program-tag:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--background);
+}
+
+/* Responsive About */
+@media (max-width: 1024px) {
+    .about {
+        padding: 30px 20px;
+        gap: 30px;
+    }
+    
+    .about-img-wrapper {
+        width: 45%;
+    }
+}
+
+@media (max-width: 900px) {
+    .about {
+        padding: 60px 30px;
+    }
+    
+    .about-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .about-img {
+        width: 340px;
+    }
+    
+    .about-content {
+        text-align: center;
+        max-width: 100%;
+    }
+    
+    .about-tag {
+        justify-content: center;
+    }
+    
+    .about-programs-list {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .about {
+        flex-direction: column;
+        height: auto;
+        padding: 50px 20px;
+        margin-bottom: 10vh;
+    }
+    
+    .about-img-wrapper {
+        width: 80%;
+        max-width: 350px;
+    }
+    
+    .about-title .luxurious {
+        font-size: 4rem;
+    }
+    
+    .about-title .lexend {
+        font-size: 3rem;
+    }
+    
+    .about-content {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .about {
+        padding: 40px 20px;
+    }
+    
+    .about-divider-text {
+        font-size: 10px;
+    }
+    
+    .about-img {
+        width: 280px;
+    }
+    
+    .about-program-tag {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+}

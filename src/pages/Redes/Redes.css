@@ -1,0 +1,157 @@
+/* src/pages/Redes/Redes.css */
+
+.page-redes {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+/* Carruseles por cliente */
+.redes-carousels {
+    padding: 20px 0 80px;
+}
+
+.redes-carousel-section {
+    margin-bottom: 50px;
+}
+
+.redes-carousel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    margin-bottom: 20px;
+}
+
+.redes-carousel-client {
+    font-family: 'Lexend', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0;
+}
+
+.redes-carousel-link {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+}
+
+.redes-carousel-section:hover .redes-carousel-link {
+    color: var(--primary);
+}
+
+.redes-carousel-wrapper {
+    overflow: hidden;
+    padding: 0 60px;
+}
+
+.redes-carousel-track-infinite {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+}
+
+.redes-carousel-track-infinite.scroll-right {
+    animation: scrollRight 30s linear infinite;
+}
+
+.redes-carousel-track-infinite.scroll-left {
+    animation: scrollLeft 30s linear infinite;
+}
+
+.redes-carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 60px;
+    scroll-padding-left: 60px;
+}
+
+.redes-carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.redes-carousel-track::after {
+    content: '';
+    flex-shrink: 0;
+    width: 40px;
+}
+
+.redes-carousel-item {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    height: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.redes-carousel-item:hover {
+    transform: scale(1.02);
+}
+
+.redes-carousel-item img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    display: block;
+}
+
+/* Kerning específico para REDES SOCIALES */
+.page-redes .project-page-title .title-word .luxurious {
+    margin-left: -0.02em;
+    margin-right: -0.02em;
+}
+
+.page-redes .project-page-title .title-word .luxurious:first-child {
+    margin-left: 0;
+}
+
+/* Responsive Redes Carousels */
+@media (max-width: 768px) {
+    .redes-carousel-header {
+        padding: 0 30px;
+    }
+    
+    .redes-carousel-track {
+        padding: 0 30px;
+        gap: 15px;
+    }
+    
+    .redes-carousel-item {
+        height: 280px;
+    }
+    
+    .redes-carousel-client {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .redes-carousel-header {
+        padding: 0 20px;
+    }
+    
+    .redes-carousel-track {
+        padding: 0 20px;
+        gap: 12px;
+    }
+    
+    .redes-carousel-item {
+        height: 220px;
+    }
+    
+    .redes-carousel-client {
+        font-size: 18px;
+    }
+    
+    .redes-carousel-btn {
+        width: 36px;
+        height: 36px;
+    }
+}

@@ -2,6 +2,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import ContactForm from './ContactForm';
+import './Contact/Contact.css';
 
 const Contact = () => {
     const { t } = useLanguage();

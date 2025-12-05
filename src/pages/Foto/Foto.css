@@ -1,0 +1,261 @@
+/* src/pages/Foto/Foto.css */
+
+.page-foto {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+.foto-masonry {
+    padding: 40px 60px 100px;
+    columns: 3;
+    column-gap: 25px;
+}
+
+.foto-item {
+    break-inside: avoid;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.foto-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.foto-item:hover img {
+    transform: scale(1.05);
+}
+
+.foto-item-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 25px;
+}
+
+.foto-item:hover .foto-item-overlay {
+    opacity: 1;
+}
+
+.foto-item-category {
+    font-family: 'Lexend', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 5px;
+}
+
+.foto-item-title {
+    font-family: 'Lexend', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.foto-item-count {
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+}
+
+.foto-view-link {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+}
+
+.foto-item-project:hover .foto-view-link {
+    color: var(--primary);
+}
+
+/* Lightbox */
+.foto-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 60px;
+}
+
+html.dark .foto-lightbox-overlay {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+.foto-lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.foto-lightbox-close:hover {
+    border-color: white;
+    background: white;
+}
+
+.foto-lightbox-close svg {
+    width: 22px;
+    height: 22px;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.foto-lightbox-close:hover svg {
+    color: black;
+}
+
+.foto-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.foto-lightbox-prev {
+    left: 30px;
+}
+
+.foto-lightbox-next {
+    right: 30px;
+}
+
+.foto-lightbox-nav:hover {
+    border-color: white;
+    background: white;
+}
+
+.foto-lightbox-nav svg {
+    width: 22px;
+    height: 22px;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.foto-lightbox-nav:hover svg {
+    color: black;
+}
+
+.foto-lightbox-content {
+    max-width: 80vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.foto-lightbox-content img {
+    max-width: 100%;
+    max-height: calc(80vh - 80px);
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.foto-lightbox-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.foto-lightbox-info h3 {
+    font-family: 'Lexend', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 5px;
+}
+
+.foto-lightbox-info p {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    margin: 0;
+}
+
+/* Kerning específico para FOTOGRAFÍA */
+.page-foto .project-page-title .luxurious {
+    margin-left: -0.4em;
+    margin-right: -0.3em;
+}
+
+.page-foto .project-page-title .luxurious:first-child {
+    margin-left: 0;
+}
+
+/* Responsive Fotografía */
+@media (max-width: 1024px) {
+    .foto-masonry {
+        columns: 2;
+        padding: 30px 40px 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .foto-masonry {
+        padding: 30px 30px 60px;
+        column-gap: 20px;
+    }
+    
+    .foto-item {
+        margin-bottom: 20px;
+    }
+    
+    .foto-lightbox {
+        padding: 20px;
+    }
+    
+    .foto-lightbox-nav {
+        display: none;
+    }
+    
+    .foto-lightbox-content {
+        max-width: 100%;
+        max-height: 90vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .foto-masonry {
+        columns: 1;
+        padding: 20px 20px 40px;
+    }
+    
+    .foto-item {
+        margin-bottom: 15px;
+    }
+}

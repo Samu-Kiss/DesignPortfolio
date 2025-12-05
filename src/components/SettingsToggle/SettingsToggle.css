@@ -1,0 +1,110 @@
+/* src/components/SettingsToggle/SettingsToggle.css */
+
+.settings-toggle {
+    position: fixed;
+    bottom: 100px;
+    right: 32px;
+    z-index: 9990;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--background);
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 6px 25px rgba(186, 24, 27, 0.3);
+}
+
+.toggle-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.toggle-text {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.language-toggle {
+    font-size: 13px;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+html.dark .toggle-btn {
+    background: var(--background-alt);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+html.dark .toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.theme-toggle-btn,
+.language-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover,
+.language-toggle-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.theme-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.language-toggle-btn {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .settings-toggle {
+        bottom: 75px;
+        right: 22px;
+    }
+
+    .toggle-btn {
+        width: 42px;
+        height: 42px;
+    }
+}

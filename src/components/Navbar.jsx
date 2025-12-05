@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-scroll';
 import { useLanguage } from '../context/LanguageContext';
+import './Navbar/Navbar.css';
 
 const Navbar = () => {
     const [navbarHeight, setNavbarHeight] = useState(0);
