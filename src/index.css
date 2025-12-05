@@ -987,13 +987,13 @@ a:hover {
 
 .contact-title .luxurious {
     font-family: 'Luxurious Script', cursive;
-    font-size: 6rem;
+    font-size: clamp(2.5rem, 10vw, 6rem);
     font-weight: 700;
 }
 
 .contact-title .lexend {
     font-family: 'Lexend', sans-serif;
-    font-size: 5rem;
+    font-size: clamp(2rem, 8vw, 5rem);
 }
 
 .contact-subtitle h4{
@@ -1094,24 +1094,70 @@ a:hover {
     align-items: baseline;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 0 15px;
     margin: 0;
-    line-height: 1;
+    line-height: 1.1;
+}
+
+.project-page-title .title-word {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
 }
 
 .project-page-title .luxurious {
     font-family: 'Luxurious Script', cursive;
-    font-size: clamp(50px, 8vw, 90px);
+    font-size: clamp(40px, 7vw, 90px);
     font-weight: 700;
     color: var(--accent);
 }
 
 .project-page-title .lexend {
     font-family: 'Lexend', sans-serif;
-    font-size: clamp(32px, 5vw, 60px);
+    font-size: clamp(26px, 4.5vw, 60px);
     font-weight: 800;
     color: var(--accent);
-    letter-spacing: 4px;
+    letter-spacing: 0.08em;
+}
+
+/* Kerning específico para DISEÑO */
+.page-diseno .project-page-title .luxurious {
+    margin-left: -0.4em;
+    margin-right: -0.4em;
+}
+
+.page-diseno .project-page-title .luxurious:first-child {
+    margin-left: 0;
+}
+
+/* Kerning específico para REDES SOCIALES */
+.page-redes .project-page-title .title-word .luxurious {
+    margin-left: -0.02em;
+    margin-right: -0.02em;
+}
+
+.page-redes .project-page-title .title-word .luxurious:first-child {
+    margin-left: 0;
+}
+
+/* Kerning específico para VIDEO */
+.page-video .project-page-title .luxurious {
+    margin-left: -0.4em;
+    margin-right: -0.2em;
+}
+
+.page-video .project-page-title .luxurious:first-child {
+    margin-left: 0;
+}
+
+/* Kerning específico para FOTOGRAFÍA */
+.page-foto .project-page-title .luxurious {
+    margin-left: -0.4em;
+    margin-right: -0.3em;
+}
+
+.page-foto .project-page-title .luxurious:first-child {
+    margin-left: 0;
 }
 
 /* Legacy - por si se usa en algún lugar */
@@ -2419,21 +2465,14 @@ a:hover {
     /* Contact Mobile */
     .contact {
         height: auto;
-        padding: 50px 20px;
-    }
-    
-    .contact-title .luxurious {
-        font-size: 4rem;
-    }
-    
-    .contact-title .lexend {
-        font-size: 3rem;
+        padding: 50px 15px;
     }
     
     .contact-links {
         flex-direction: column;
         width: 100%;
         max-width: 100%;
+        padding: 0 5px;
     }
     
     .contact-link {
@@ -2443,6 +2482,8 @@ a:hover {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 12px 15px;
+        font-size: 0.9rem;
     }
     
     /* Page Header Mobile */
@@ -2482,14 +2523,6 @@ a:hover {
 }
 
 @media (max-width: 480px) {
-    .hero-title .luxurious {
-        font-size: 2.5rem;
-    }
-    
-    .hero-title .lexend {
-        font-size: 2rem;
-    }
-    
     .masonry-grid {
         margin-left: -10px;
     }
@@ -2500,6 +2533,24 @@ a:hover {
     
     .polaroid-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Contact 480px - iPhone SE */
+    .contact {
+        padding: 40px 10px;
+    }
+    
+    .contact-links {
+        padding: 0;
+    }
+    
+    .contact-link {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .contact-link i {
+        padding: 8px 8px 8px 0;
     }
 }
 

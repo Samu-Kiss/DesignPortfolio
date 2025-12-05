@@ -108,14 +108,18 @@ const Redes = () => {
                 >
                     <h4 className="project-page-subtitle">Creación de contenido para</h4>
                     <h1 className="project-page-title">
-                        <span className="luxurious">R</span>
-                        <span className="lexend">ED</span>
-                        <span className="luxurious">E</span>
-                        <span className="lexend">S </span>
-                        <span className="luxurious">S</span>
-                        <span className="lexend">OCI</span>
-                        <span className="luxurious">A</span>
-                        <span className="lexend">LES</span>
+                        <span className="title-word">
+                            <span className="luxurious">R</span>
+                            <span className="lexend">ED</span>
+                            <span className="luxurious">E</span>
+                            <span className="lexend">S</span>
+                        </span>
+                        <span className="title-word">
+                            <span className="luxurious">S</span>
+                            <span className="lexend">OCI</span>
+                            <span className="luxurious">A</span>
+                            <span className="lexend">LES</span>
+                        </span>
                     </h1>
                 </motion.div>
 
