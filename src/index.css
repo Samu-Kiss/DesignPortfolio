@@ -74,12 +74,16 @@ html.dark .video-modal-overlay {
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     margin: 0;
     font-family: 'Lexend', sans-serif;
     background-color: var(--background);
     color: var(--primary);
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
     cursor: none;
 }
@@ -335,6 +339,29 @@ a:hover {
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
+}
+
+/* Mobile Nav Overlay */
+.nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 768px) {
+    .nav-overlay {
+        display: block;
+    }
 }
 
 .logo {
@@ -2214,10 +2241,11 @@ a:hover {
     
     .nav-links {
         position: fixed;
-        top: 0;
+        top: -50%;
         right: -100%;
         width: 70%;
-        height: 100vh;
+        height: 100rem;
+        padding-bottom: 125vh;
         background-color: var(--background);
         flex-direction: column;
         justify-content: center;
@@ -2405,12 +2433,16 @@ a:hover {
     .contact-links {
         flex-direction: column;
         width: 100%;
-        max-width: 300px;
+        max-width: 100%;
     }
     
     .contact-link {
         width: 100%;
         text-align: center;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     /* Page Header Mobile */
@@ -4635,14 +4667,16 @@ html.dark .case-navigation {
     height: 20px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     .contact-container {
         grid-template-columns: 1fr;
         gap: 50px;
+        padding: 0 20px;
     }
 
     .contact-info {
         text-align: center;
+        width: 100%;
     }
 
     .contact-info .contact-title,
@@ -4652,6 +4686,16 @@ html.dark .case-navigation {
 
     .contact-info .contact-links {
         justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .contact-info .contact-link {
+        width: 100%;
+    }
+    
+    .contact-form {
+        width: 100%;
     }
 }
 
