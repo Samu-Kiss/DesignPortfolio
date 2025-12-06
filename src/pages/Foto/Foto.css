@@ -7,8 +7,8 @@
 
 .foto-masonry {
     padding: 40px 60px 100px;
-    columns: 3;
-    column-gap: 25px;
+    columns: 4;
+    column-gap: 20px;
 }
 
 .foto-item {
@@ -218,6 +218,13 @@ html.dark .foto-lightbox-overlay {
 }
 
 /* Responsive Fotografía */
+@media (max-width: 1280px) {
+    .foto-masonry {
+        columns: 3;
+        padding: 30px 50px 80px;
+    }
+}
+
 @media (max-width: 1024px) {
     .foto-masonry {
         columns: 2;

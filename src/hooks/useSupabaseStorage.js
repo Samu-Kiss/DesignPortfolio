@@ -322,5 +322,122 @@ export const useProjects = (section) => {
     return { projects, loading, error };
 };
 
+// Obtener información de YouTube via oEmbed (título, thumbnail, etc.)
+const fetchYoutubeInfo = async (url) => {
+    try {
+        const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
+        const response = await fetch(oembedUrl);
+        if (!response.ok) return null;
+        return await response.json();
+    } catch {
+        return null;
+    }
+};
+
+// Hook para cargar videos desde un JSON en Supabase Storage
+export const useVideosJson = () => {
+    const [videos, setVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchVideos = async () => {
+            setLoading(true);
+            try {
+                // El JSON está en la raíz del bucket o en una carpeta específica
+                const jsonUrl = getPublicUrl(BUCKET, 'video/videos.json');
+                
+                const response = await fetch(jsonUrl);
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar el archivo de videos');
+                }
+                
+                const data = await response.json();
+                
+                // Procesar videos: extraer info de YouTube si falta título o thumbnail
+                const processedVideos = await Promise.all(
+                    (data.videos || []).map(async (video) => {
+                        const needsYoutubeInfo = !video.title || !video.thumbnail;
+                        const youtubeId = getYoutubeId(video.videoUrl);
+                        
+                        // Si es YouTube y falta info, obtenerla via oEmbed
+                        if (needsYoutubeInfo && youtubeId) {
+                            const ytInfo = await fetchYoutubeInfo(video.videoUrl);
+                            // Usar thumbnail del oEmbed o fallback a hqdefault
+                            const ytThumbnail = ytInfo?.thumbnail_url || 
+                                `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+                            return {
+                                ...video,
+                                title: video.title || ytInfo?.title || 'Sin título',
+                                thumbnail: video.thumbnail || ytThumbnail
+                            };
+                        }
+                        
+                        // Fallback para YouTube sin oEmbed
+                        if (!video.thumbnail && youtubeId) {
+                            return {
+                                ...video,
+                                thumbnail: `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
+                            };
+                        }
+                        
+                        return video;
+                    })
+                );
+                
+                setVideos(processedVideos);
+                
+                // Precargar thumbnails
+                const thumbnails = processedVideos.map(v => v.thumbnail).filter(Boolean);
+                await preloadImages(thumbnails);
+                
+            } catch (err) {
+                setError(err.message);
+                console.error('Error fetching videos JSON:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVideos();
+    }, []);
+
+    return { videos, loading, error };
+};
+
+// Extraer ID de YouTube de una URL
+const getYoutubeId = (url) => {
+    if (!url) return null;
+    const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+};
+
+// Obtener thumbnail de YouTube automáticamente
+export const getYoutubeThumbnail = (url, quality = 'maxresdefault') => {
+    const videoId = getYoutubeId(url);
+    if (!videoId) return null;
+    // Opciones: maxresdefault (1280x720), sddefault (640x480), hqdefault (480x360), mqdefault (320x180)
+    return `https://img.youtube.com/vi/${videoId}/${quality}.jpg`;
+};
+
+// Utilidad para extraer ID de video de YouTube o Vimeo y generar URL de embed
+export const getVideoEmbedUrl = (url) => {
+    if (!url) return null;
+    
+    // YouTube
+    const youtubeId = getYoutubeId(url);
+    if (youtubeId) {
+        return `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+    }
+    
+    // Vimeo
+    const vimeoMatch = url.match(/(?:vimeo\.com\/)(\d+)/);
+    if (vimeoMatch) {
+        return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
+    }
+    
+    return url; // Retornar URL original si no se reconoce
+};
+
 // Exportar el nombre del bucket por si se necesita
 export const BUCKET_NAME = BUCKET;

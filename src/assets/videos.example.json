@@ -1,0 +1,28 @@
+{
+  "videos": [
+    {
+      "id": "video-1",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "id": "video-2",
+      "videoUrl": "https://www.youtube.com/watch?v=XXXXX",
+      "client": "Nombre del Cliente",
+      "category": "Comercial"
+    },
+    {
+      "id": "video-3",
+      "title": "Título personalizado (ignora el de YouTube)",
+      "videoUrl": "https://www.youtube.com/watch?v=XXXXX",
+      "thumbnail": "https://tu-url.com/thumbnail-custom.jpg"
+    },
+    {
+      "id": "video-4",
+      "title": "Video de Vimeo",
+      "client": "Cliente Vimeo",
+      "category": "Corporativo",
+      "thumbnail": "https://url-del-thumbnail.jpg",
+      "videoUrl": "https://vimeo.com/123456789"
+    }
+  ]
+}
