@@ -1,8 +1,37 @@
 // src/hooks/useSupabaseStorage.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase, getPublicUrl } from '../lib/supabase';
 
 const BUCKET = 'Portfolio';
+
+// ==========================================
+// IMAGE CACHE - Cache de imágenes en memoria
+// ==========================================
+const imageCache = new Map();
+
+// Precargar una imagen y guardarla en cache
+const preloadImage = (src) => {
+    if (!src || imageCache.has(src)) return Promise.resolve();
+    
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            imageCache.set(src, true);
+            resolve();
+        };
+        img.onerror = () => resolve(); // No fallar si una imagen no carga
+        img.src = src;
+    });
+};
+
+// Precargar múltiples imágenes (exportar para uso externo)
+export const preloadImages = async (images) => {
+    if (!images || images.length === 0) return;
+    await Promise.all(images.map(src => preloadImage(src)));
+};
+
+// Verificar si una imagen está en cache
+export const isImageCached = (src) => imageCache.has(src);
 
 // Hook para obtener archivos de una carpeta del bucket
 export const useStorageFiles = (folder) => {
@@ -160,6 +189,23 @@ export const useProjects = (section) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Función para precargar imágenes de todos los proyectos (1 click de profundidad)
+    const preloadAllProjectImages = useCallback((projectsList) => {
+        // Precargar todas las imágenes de todos los proyectos en background
+        const allImages = projectsList.flatMap(p => p.images || []);
+        // Precargar en lotes para no saturar
+        const batchSize = 5;
+        const preloadBatch = async (startIdx) => {
+            const batch = allImages.slice(startIdx, startIdx + batchSize);
+            if (batch.length === 0) return;
+            await preloadImages(batch);
+            // Continuar con el siguiente lote después de un pequeño delay
+            setTimeout(() => preloadBatch(startIdx + batchSize), 100);
+        };
+        // Iniciar preloading después de que la UI se renderice
+        setTimeout(() => preloadBatch(0), 500);
+    }, []);
+
     useEffect(() => {
         const fetchProjects = async () => {
             setLoading(true);
@@ -187,6 +233,18 @@ export const useProjects = (section) => {
                             return null;
                         }
 
+                        // Filtrar archivos de imagen/video (excluir info.json y archivos ocultos)
+                        const mediaFiles = files.filter(file => 
+                            file.name !== '.emptyFolderPlaceholder' && 
+                            file.name !== 'info.json' &&
+                            !file.name.startsWith('.')
+                        );
+
+                        // FILTRAR CARPETAS VACÍAS - Si no hay archivos multimedia, retornar null
+                        if (mediaFiles.length === 0) {
+                            return null;
+                        }
+
                         // Cargar info.json si existe
                         let info = {};
                         const hasInfoJson = files.some(f => f.name === 'info.json');
@@ -201,13 +259,6 @@ export const useProjects = (section) => {
                                 console.warn(`Could not load info.json for ${folder.name}:`, e);
                             }
                         }
-
-                        // Filtrar archivos de imagen/video (excluir info.json y archivos ocultos)
-                        const mediaFiles = files.filter(file => 
-                            file.name !== '.emptyFolderPlaceholder' && 
-                            file.name !== 'info.json' &&
-                            !file.name.startsWith('.')
-                        );
 
                         const images = mediaFiles
                             .map(file => getPublicUrl(BUCKET, `${folderPath}/${file.name}`))
@@ -244,7 +295,17 @@ export const useProjects = (section) => {
                     })
                 );
 
-                setProjects(projectsWithImages.filter(Boolean));
+                // Filtrar proyectos nulos (carpetas vacías o con errores)
+                const validProjects = projectsWithImages.filter(Boolean);
+                setProjects(validProjects);
+
+                // Precargar imágenes de cover primero, luego todas las demás
+                const coverImages = validProjects.map(p => p.coverImage).filter(Boolean);
+                await preloadImages(coverImages);
+                
+                // Precargar todas las imágenes en background (1 click de profundidad)
+                preloadAllProjectImages(validProjects);
+
             } catch (err) {
                 setError(err.message);
                 console.error('Error fetching projects:', err);
@@ -256,7 +317,7 @@ export const useProjects = (section) => {
         if (section) {
             fetchProjects();
         }
-    }, [section]);
+    }, [section, preloadAllProjectImages]);
 
     return { projects, loading, error };
 };

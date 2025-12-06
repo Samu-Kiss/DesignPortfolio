@@ -1,8 +1,9 @@
 // src/pages/Foto.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import NavbarInternal from '../components/NavbarInternal';
+import PhotoGallery from '../components/shared/PhotoGallery';
 import { useProjects } from '../hooks/useSupabaseStorage';
 import './Foto/Foto.css';
 
@@ -35,10 +36,24 @@ const itemVariants = {
 const Foto = () => {
     const navigate = useNavigate();
     const { projects: photoSets, loading, error } = useProjects('foto');
+    
+    // Estado para la galería
+    const [galleryOpen, setGalleryOpen] = useState(false);
+    const [selectedPhotoSet, setSelectedPhotoSet] = useState(null);
 
     const handleBack = (e) => {
         e.preventDefault();
         navigate('/');
+    };
+
+    const handlePhotoSetClick = (photoSet) => {
+        setSelectedPhotoSet(photoSet);
+        setGalleryOpen(true);
+    };
+
+    const handleCloseGallery = () => {
+        setGalleryOpen(false);
+        setSelectedPhotoSet(null);
     };
 
     return (
@@ -106,10 +121,10 @@ const Foto = () => {
                             key={photoSet.id}
                             className="foto-item foto-item-project"
                             variants={itemVariants}
-                            onClick={() => photoSet.hasInfoJson && navigate(`/proyecto/foto/${photoSet.id}`)}
-                            whileHover={{ scale: photoSet.hasInfoJson ? 1.02 : 1 }}
+                            onClick={() => handlePhotoSetClick(photoSet)}
+                            whileHover={{ scale: 1.02 }}
                             transition={{ duration: 0.3 }}
-                            style={{ cursor: photoSet.hasInfoJson ? 'pointer' : 'default' }}
+                            style={{ cursor: 'pointer' }}
                         >
                             <img 
                                 src={photoSet.coverImage || photoSet.images[0]} 
@@ -119,12 +134,20 @@ const Foto = () => {
                             <div className="foto-item-overlay">
                                 <h3 className="foto-item-title">{photoSet.client}</h3>
                                 <span className="foto-item-count">{photoSet.images.length} fotos</span>
-                                {photoSet.hasInfoJson && <span className="foto-view-link">Ver caso de estudio →</span>}
+                                <span className="foto-view-link">Ver galería →</span>
                             </div>
                         </motion.article>
                     ))}
                 </motion.section>
             )}
+
+            {/* Photo Gallery Modal */}
+            <PhotoGallery
+                images={selectedPhotoSet?.images || []}
+                title={selectedPhotoSet?.client || ''}
+                isOpen={galleryOpen}
+                onClose={handleCloseGallery}
+            />
         </motion.div>
     );
 };
