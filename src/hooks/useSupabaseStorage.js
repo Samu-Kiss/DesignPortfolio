@@ -1,8 +1,6 @@
 // src/hooks/useSupabaseStorage.js
 import { useState, useEffect, useCallback } from 'react';
-import { supabase, getPublicUrl } from '../lib/supabase';
-
-const BUCKET = 'Portfolio';
+import { BUCKET_NAME, getObjectUrl, listPrefix } from '../lib/supabase';
 
 // ==========================================
 // IMAGE CACHE - Cache de imágenes en memoria
@@ -43,22 +41,16 @@ export const useStorageFiles = (folder) => {
         const fetchFiles = async () => {
             setLoading(true);
             try {
-                const { data, error } = await supabase.storage
-                    .from(BUCKET)
-                    .list(folder, {
-                        limit: 100,
-                        sortBy: { column: 'created_at', order: 'desc' }
-                    });
+                const { files } = await listPrefix(BUCKET_NAME, folder);
 
-                if (error) throw error;
-
-                // Agregar URL pública a cada archivo
-                const filesWithUrls = data
-                    .filter(file => file.name !== '.emptyFolderPlaceholder')
-                    .map(file => ({
-                        ...file,
-                        url: getPublicUrl(BUCKET, `${folder}/${file.name}`)
-                    }));
+                const filesWithUrls = await Promise.all(
+                    files
+                        .filter(file => file.name !== '.emptyFolderPlaceholder')
+                        .map(async (file) => ({
+                            ...file,
+                            url: await getObjectUrl(`${folder}/${file.name}`)
+                        }))
+                );
 
                 setFiles(filesWithUrls);
             } catch (err) {
@@ -87,16 +79,8 @@ export const useStorageFolders = (section) => {
         const fetchFolders = async () => {
             setLoading(true);
             try {
-                const { data, error } = await supabase.storage
-                    .from(BUCKET)
-                    .list(section, {
-                        limit: 100,
-                    });
-
-                if (error) throw error;
-
-                // Filtrar solo carpetas (no tienen metadata de archivo)
-                const folderList = data.filter(item => item.id === null);
+                const { folders } = await listPrefix(BUCKET_NAME, section);
+                const folderList = folders;
                 setFolders(folderList);
             } catch (err) {
                 setError(err.message);
@@ -125,20 +109,11 @@ export const useProject = (section, projectName) => {
             setLoading(true);
             try {
                 const folderPath = `${section}/${projectName}`;
-                
-                // Obtener lista de archivos
-                const { data, error } = await supabase.storage
-                    .from(BUCKET)
-                    .list(folderPath, {
-                        limit: 100,
-                        sortBy: { column: 'name', order: 'asc' }
-                    });
 
-                if (error) throw error;
+                const { files } = await listPrefix(BUCKET_NAME, folderPath);
 
-                // Separar info.json de las imágenes/videos
-                const infoFile = data.find(file => file.name === 'info.json');
-                const mediaFiles = data.filter(file => 
+                const infoFile = files.find(file => file.name === 'info.json');
+                const mediaFiles = files.filter(file => 
                     file.name !== '.emptyFolderPlaceholder' && 
                     file.name !== 'info.json'
                 );
@@ -146,7 +121,7 @@ export const useProject = (section, projectName) => {
                 // Cargar info.json si existe
                 let info = {};
                 if (infoFile) {
-                    const infoUrl = getPublicUrl(BUCKET, `${folderPath}/info.json`);
+                    const infoUrl = await getObjectUrl(`${folderPath}/info.json`);
                     try {
                         const response = await fetch(infoUrl);
                         if (response.ok) {
@@ -157,10 +132,12 @@ export const useProject = (section, projectName) => {
                     }
                 }
 
-                const images = mediaFiles.map(file => ({
-                    name: file.name,
-                    url: getPublicUrl(BUCKET, `${folderPath}/${file.name}`)
-                }));
+                const images = await Promise.all(
+                    mediaFiles.map(async (file) => ({
+                        name: file.name,
+                        url: await getObjectUrl(`${folderPath}/${file.name}`)
+                    }))
+                );
 
                 setProject({
                     name: projectName,
@@ -211,27 +188,14 @@ export const useProjects = (section) => {
             setLoading(true);
             try {
                 // Primero obtener las carpetas (proyectos)
-                const { data: folders, error: foldersError } = await supabase.storage
-                    .from(BUCKET)
-                    .list(section, { limit: 100 });
-
-                if (foldersError) throw foldersError;
-
-                // Filtrar solo carpetas
-                const projectFolders = folders.filter(item => item.id === null);
+                const { folders } = await listPrefix(BUCKET_NAME, section);
+                const projectFolders = folders;
 
                 // Para cada carpeta, obtener sus archivos e info.json
                 const projectsWithImages = await Promise.all(
                     projectFolders.map(async (folder) => {
                         const folderPath = `${section}/${folder.name}`;
-                        const { data: files, error: filesError } = await supabase.storage
-                            .from(BUCKET)
-                            .list(folderPath, { limit: 100 });
-
-                        if (filesError) {
-                            console.error(`Error loading ${folder.name}:`, filesError);
-                            return null;
-                        }
+                        const { files } = await listPrefix(BUCKET_NAME, folderPath);
 
                         // Filtrar archivos de imagen/video (excluir info.json y archivos ocultos)
                         const mediaFiles = files.filter(file => 
@@ -249,7 +213,7 @@ export const useProjects = (section) => {
                         let info = {};
                         const hasInfoJson = files.some(f => f.name === 'info.json');
                         if (hasInfoJson) {
-                            const infoUrl = getPublicUrl(BUCKET, `${folderPath}/info.json`);
+                            const infoUrl = await getObjectUrl(`${folderPath}/info.json`);
                             try {
                                 const response = await fetch(infoUrl);
                                 if (response.ok) {
@@ -260,9 +224,9 @@ export const useProjects = (section) => {
                             }
                         }
 
-                        const images = mediaFiles
-                            .map(file => getPublicUrl(BUCKET, `${folderPath}/${file.name}`))
-                            .filter(url => url && url.startsWith('http'));
+                        const images = (await Promise.all(
+                            mediaFiles.map(async (file) => await getObjectUrl(`${folderPath}/${file.name}`))
+                        )).filter(url => url && url.startsWith('http'));
 
                         // Determinar imagen de cover para preview
                         let coverImage = images.length > 0 ? images[0] : null;
@@ -274,7 +238,7 @@ export const useProjects = (section) => {
                                 return fileName === coverName || fileName.startsWith(coverName + '.');
                             });
                             if (coverFile) {
-                                const url = getPublicUrl(BUCKET, `${folderPath}/${coverFile.name}`);
+                                const url = await getObjectUrl(`${folderPath}/${coverFile.name}`);
                                 if (url && url.startsWith('http')) {
                                     coverImage = url;
                                 }
@@ -345,7 +309,7 @@ export const useVideosJson = () => {
             setLoading(true);
             try {
                 // El JSON está en la raíz del bucket o en una carpeta específica
-                const jsonUrl = getPublicUrl(BUCKET, 'video/videos.json');
+                const jsonUrl = await getObjectUrl('video/videos.json');
                 
                 const response = await fetch(jsonUrl);
                 if (!response.ok) {
@@ -439,5 +403,3 @@ export const getVideoEmbedUrl = (url) => {
     return url; // Retornar URL original si no se reconoce
 };
 
-// Exportar el nombre del bucket por si se necesita
-export const BUCKET_NAME = BUCKET;

@@ -1,20 +1,23 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { getPublicUrl } from '../lib/supabase';
+import { getObjectUrl } from '../lib/supabase';
 import { useLanguage } from '../context/LanguageContext';
 import './About/About.css';
 
 const About = () => {
     const { t } = useLanguage();
-    
-    // Obtener la imagen del bucket de Supabase dentro del componente
-    const pfpImage = useMemo(() => {
-        try {
-            return getPublicUrl('Portfolio', 'PFP.png');
-        } catch (e) {
-            console.warn('Error getting PFP image URL:', e);
-            return null;
-        }
+    const [pfpImage, setPfpImage] = useState(null);
+
+    useEffect(() => {
+        const loadImage = async () => {
+            try {
+                const url = await getObjectUrl('PFP.png');
+                setPfpImage(url);
+            } catch (e) {
+                console.warn('Error getting PFP image URL:', e);
+            }
+        };
+        loadImage();
     }, []);
     
     const programas = [
